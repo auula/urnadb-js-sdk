@@ -4,32 +4,31 @@ import assert from "node:assert";
 import ServerOptions from "../src/options.js";
 
 
-test("ServerOptions should generate base url", () => {
+test("ServerOptions baseUrl", () => {
 
     const options = new ServerOptions({
         endpoint: "192.168.31.221",
-        port: 8080
+        port: 2668,
+        token: "connection-secret-token"
     });
 
 
     assert.strictEqual(
         options.baseUrl(),
-        "http://192.168.31.221:8080"
+        "http://192.168.31.221:2668"
     );
 
 });
 
 
-test("private field cannot access", () => {
+test("Private field cannot access", () => {
 
     const options = new ServerOptions({
-        endpoint:"192.168.31.221"
+        endpoint: "192.168.31.221",
     });
-
 
     assert.strictEqual(
         options.endpoint,
         undefined
     );
-
 });
