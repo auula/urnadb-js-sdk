@@ -18,5 +18,5 @@
   ],
   "author": "Leon Ding <ding_ms@outlook.com> (https://leonding.me)",
   "license": "MIT",
-  "description": ""
+  "description": "An ES6 JavaScript SDK for UrnaDB, a document-oriented NoSQL database. Provides APIs for database connections, collections, documents, and data operations."
 }
