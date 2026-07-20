@@ -1,20 +1,20 @@
 export default class ServerOptions {
 
-    #endpoint;
+    #host;
     #port;
     #token;
 
     constructor({
-        endpoint = '',
+        host = '',
         port = 2668,
         token = '',
     } = {}) {
-        this.#endpoint = endpoint;
+        this.#host = host;
         this.#port = port;
         this.#token = token;
     }
 
     baseUrl() {
-        return `http://${this.#endpoint}:${this.#port}`;
+        return `http://${this.#host}:${this.#port}`;
     }
 }

@@ -7,7 +7,7 @@ import ServerOptions from "../src/options.js";
 test("ServerOptions baseUrl", () => {
 
     const options = new ServerOptions({
-        endpoint: "192.168.31.221",
+        host: "192.168.31.221",
         port: 2668,
         token: "connection-secret-token"
     });
@@ -24,11 +24,11 @@ test("ServerOptions baseUrl", () => {
 test("Private field cannot access", () => {
 
     const options = new ServerOptions({
-        endpoint: "192.168.31.221",
+        host: "192.168.31.221",
     });
 
     assert.strictEqual(
-        options.endpoint,
+        options.host,
         undefined
     );
 });
