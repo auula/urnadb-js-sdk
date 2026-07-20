@@ -15,6 +15,6 @@ export default class ServerOptions {
     }
 
     baseUrl() {
-        return `http://${this.#host}:${this.#port}`;
+        return `https://${this.#host}:${this.#port}`;
     }
 }
