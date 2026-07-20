@@ -9,7 +9,13 @@
   "scripts": {
     "test": "node --test"
   },
-  "keywords": [],
+  "keywords": [
+    "nosql",
+    "database",
+    "kv",
+    "sdk",
+    "urnadb"
+  ],
   "author": "Leon Ding <ding_ms@outlook.com> (https://leonding.me)",
   "license": "MIT",
   "description": ""

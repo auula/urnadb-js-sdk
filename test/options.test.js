@@ -15,7 +15,7 @@ test("ServerOptions baseUrl", () => {
 
     assert.strictEqual(
         options.baseUrl(),
-        "http://192.168.31.221:2668"
+        "https://192.168.31.221:2668"
     );
 
 });
