@@ -1,13 +1,16 @@
 {
   "name": "urnadb-js-sdk",
   "version": "1.0.0",
-  "main": "export.js",
   "type": "module",
+  "main": "./src/export.js",
+  "exports": {
+    ".": "./src/export.js"
+  },
   "scripts": {
     "test": "node --test"
   },
   "keywords": [],
-  "author": "Leon Ding <ding_ms@outlook.com> (https://leonding.me/)",
+  "author": "Leon Ding <ding_ms@outlook.com> (https://leonding.me)",
   "license": "MIT",
   "description": ""
 }
