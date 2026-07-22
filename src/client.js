@@ -23,12 +23,12 @@ export default class Client {
         return this;
     }
 
-    createTable(name, ttl) {
+    createTable(name, ttl = null) {
 
     }
 
     tables(name) {
-        return new Table(name,this.#options.baseUrl());
+        return new Table(name, this.#options.baseUrl());
     }
 
 }
