@@ -1,3 +1,5 @@
+import TableBuiler from "./table";
+
 export default class Client {
 
     #options;
@@ -14,10 +16,19 @@ export default class Client {
         });
     }
 
-    NewConnection(opts) {
+    OpenConnection(opts) {
         this.#options = opts instanceof ServerOptions
             ? opts
             : new ServerOptions(opts);
+        return this;
+    }
+
+    createTable(name, ttl) {
+
+    }
+
+    tables(name) {
+        return new Table(name);
     }
 
 }
