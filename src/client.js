@@ -28,7 +28,7 @@ export default class Client {
     }
 
     tables(name) {
-        return new Table(name);
+        return new Table(name,this.#options.baseUrl());
     }
 
 }

@@ -4,11 +4,13 @@ export {
 };
 
 class Table {
-
+    
     #name;
+    #baseUrl;
 
-    constructor(name) {
+    constructor(name,baseUrl) {
         this.name = name;
+        this.baseUrl = baseUrl;
     }
 
     put(callback) {
