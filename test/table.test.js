@@ -38,3 +38,27 @@ test("should insert row data into table", () => {
     assert.equal(id, 1);
 
 });
+
+
+test("should update table row data", () => {
+
+    const id = db.tables("users").patch(patch => {
+        patch
+            .where(where => {
+                where.eq("id", 1);
+            })
+            .sets(sets => {
+                sets
+                    .put("name", "Leon Ding")
+                    .put("age", 27)
+                    .put("address", address => {
+                        address
+                            .put("🌆 city", "New York")
+                    })
+            });
+    });
+
+    assert.equal(id, 1);
+
+});
+

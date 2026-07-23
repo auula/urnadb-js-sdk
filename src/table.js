@@ -3,53 +3,55 @@ export {
     TableRowsBuilder
 };
 
-class Table {
+export class Table {
 
     #name;
     #baseUrl;
 
+
     constructor(name, baseUrl) {
-        this.name = name;
-        this.baseUrl = baseUrl;
+        this.#name = name;
+        this.#baseUrl = baseUrl;
     }
 
+
     put(callback) {
-        // 构造表格数据载体
+
         const rows = new TableRowsBuilder();
 
-        // 执行用户 DSL
         callback(rows);
 
-        // 获取 JSON 数据
         const json = rows.build();
 
-        // 这里直接发送 http 请求到 DB Server 上
+        // TODO: send HTTP request to DB Server
+
+        console.log(JSON.stringify(json, null, 4));
+
+        return 1;
+    }
 
 
-        console.log(JSON.stringify(json, null, 4))
+    patch(callback) {
+
+        const patcher = new TableRowsPatcher();
+
+        callback(patcher);
+
+        const json = patcher.build();
+
+        // TODO: send HTTP request to DB Server
+
+        console.log(JSON.stringify(json, null, 4));
 
         return 1;
     }
 }
 
-class MapBuilder {
 
-    #column = {};
-
-    put(key, value) {
-        this.#column[key] = value;
-        return this;
-    }
-
-
-    build() {
-        return this.#column;
-    }
-}
-
-class TableRowsBuilder {
+export class TableRowsBuilder {
 
     #rows = {};
+
 
     set(column, value) {
 
@@ -70,7 +72,99 @@ class TableRowsBuilder {
         return this;
     }
 
+
     build() {
         return this.#rows;
+    }
+}
+
+
+export class MapBuilder {
+
+    #column = {};
+
+
+    put(key, value) {
+
+        if (typeof value === "function") {
+
+            const builder = new MapBuilder();
+
+            value(builder);
+
+            this.#column[key] = builder.build();
+
+        } else {
+
+            this.#column[key] = value;
+
+        }
+
+        return this;
+    }
+
+
+    build() {
+        return this.#column;
+    }
+}
+
+
+export class WhereBuilder {
+
+    #where = {};
+
+
+    eq(column, value) {
+
+        this.#where[column] = value;
+
+        return this;
+    }
+
+
+    build() {
+        return this.#where;
+    }
+}
+
+
+export class TableRowsPatcher {
+
+    #where = {};
+    #rows = {};
+
+
+    where(callback) {
+
+        const builder = new WhereBuilder();
+
+        callback(builder);
+
+        this.#where = builder.build();
+
+        return this;
+    }
+
+
+    sets(callback) {
+
+        const builder = new MapBuilder();
+
+        callback(builder);
+
+        this.#rows = builder.build();
+
+        return this;
+    }
+
+
+    build() {
+
+        return {
+            where: this.#where,
+            sets: this.#rows
+        };
+
     }
 }
