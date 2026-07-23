@@ -14,6 +14,18 @@ export default class ServerOptions {
         this.#token = token;
     }
 
+    get host() {
+        return this.#host;
+    }
+
+    get port() {
+        return this.#port;
+    }
+
+    get token() {
+        return this.#token;
+    }
+
     baseUrl() {
         return `https://${this.#host}:${this.#port}`;
     }

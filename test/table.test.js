@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 
-import UrnaDB from "../src/client.js";
+import UrnaDB from "urnadb-js-sdk";
 
 
 const db = UrnaDB.OpenConnection({
@@ -61,4 +61,3 @@ test("should update table row data", () => {
     assert.equal(id, 1);
 
 });
-

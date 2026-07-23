@@ -1,7 +1,7 @@
 import { Table } from "./table.js";
 import ServerOptions from "./options.js";
 
-export default class Client {
+export default class UrnaDB {
 
     #options;
 
@@ -23,7 +23,11 @@ export default class Client {
             ? opts
             : new ServerOptions(opts);
 
-        return new Client(options.host, options.port, options.token);
+        return new UrnaDB(
+            options.host,
+            options.port,
+            options.token
+        );
     }
 
     createTable(name, ttl = null) {

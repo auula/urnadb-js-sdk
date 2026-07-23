@@ -2,9 +2,34 @@
   "name": "urnadb-js-sdk",
   "version": "1.0.0",
   "type": "module",
-  "main": "./src/export.js",
+  "main": "./src/index.js",
+  "types": "./types/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "table": [
+        "types/table.d.ts"
+      ]
+    }
+  },
   "exports": {
-    ".": "./src/export.js"
+    ".": {
+      "types": "./types/index.d.ts",
+      "import": "./src/index.js"
+    },
+    "./table": {
+      "types": "./types/table.d.ts",
+      "import": "./src/table.js"
+    }
+  },
+  "files": [
+    "src",
+    "types",
+    "README.md",
+    "LICENSE"
+  ],
+  "sideEffects": false,
+  "engines": {
+    "node": ">=18"
   },
   "scripts": {
     "test": "node --test"

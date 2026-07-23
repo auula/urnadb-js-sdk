@@ -1,9 +1,10 @@
 export {
     Table,
-    TableRowsBuilder
+    TableRowsBuilder,
+    TableRowsPatcher
 };
 
-export class Table {
+class Table {
 
     #name;
     #baseUrl;
@@ -48,7 +49,7 @@ export class Table {
 }
 
 
-export class TableRowsBuilder {
+class TableRowsBuilder {
 
     #rows = {};
 
@@ -79,7 +80,7 @@ export class TableRowsBuilder {
 }
 
 
-export class MapBuilder {
+class MapBuilder {
 
     #column = {};
 
@@ -110,7 +111,7 @@ export class MapBuilder {
 }
 
 
-export class WhereBuilder {
+class WhereBuilder {
 
     #where = {};
 
@@ -129,7 +130,7 @@ export class WhereBuilder {
 }
 
 
-export class TableRowsPatcher {
+class TableRowsPatcher {
 
     #where = {};
     #rows = {};
