@@ -1,4 +1,5 @@
-import TableBuiler from "./table";
+import { Table } from "./table.js";
+import ServerOptions from "./options.js";
 
 export default class Client {
 
@@ -16,15 +17,17 @@ export default class Client {
         });
     }
 
-    OpenConnection(opts) {
-        this.#options = opts instanceof ServerOptions
+    static OpenConnection(opts) {
+
+        const options = opts instanceof ServerOptions
             ? opts
             : new ServerOptions(opts);
-        return this;
+
+        return new Client(options.host, options.port, options.token);
     }
 
     createTable(name, ttl = null) {
-
+        return name;
     }
 
     tables(name) {
