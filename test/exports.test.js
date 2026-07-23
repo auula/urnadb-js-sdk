@@ -12,14 +12,14 @@ test("root entry should support default and named imports", async () => {
 
     assert.equal(sdk.default, sdk.UrnaDB);
 
-    for (const exportName of [
+    for (const expname of [
         "UrnaDB",
         "ServerOptions",
         "Table",
         "TableRowsBuilder",
         "TableRowsPatcher"
     ]) {
-        assert.equal(typeof sdk[exportName], "function");
+        assert.equal(typeof sdk[expname], "function");
     }
 
     const options = new sdk.ServerOptions({
@@ -38,16 +38,16 @@ test("root entry should support default and named imports", async () => {
 
 test("table subpath should reference the root table exports", async () => {
 
-    const [sdk, tableApi] = await Promise.all([
+    const [sdk, tab] = await Promise.all([
         import("urnadb-js-sdk"),
         import("urnadb-js-sdk/table")
     ]);
 
-    assert.equal(tableApi.Table, sdk.Table);
-    assert.equal(tableApi.TableRowsBuilder, sdk.TableRowsBuilder);
-    assert.equal(tableApi.TableRowsPatcher, sdk.TableRowsPatcher);
+    assert.equal(tab.Table, sdk.Table);
+    assert.equal(tab.TableRowsBuilder, sdk.TableRowsBuilder);
+    assert.equal(tab.TableRowsPatcher, sdk.TableRowsPatcher);
 
-    const rows = new tableApi.TableRowsBuilder()
+    const rows = new tab.TableRowsBuilder()
         .set("name", "Leon Ding")
         .set("active", true);
 
