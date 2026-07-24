@@ -83,3 +83,49 @@ test("should query table row data", () => {
     assert.equal(id, 1);
 
 });
+
+
+test("should build a transaction with multiple table", () => {
+
+    const db = UrnaDB.OpenConnection({
+        host: "test.db.example.com",
+        port: 2668,
+        token: "connection-secret-token"
+    });
+
+    // UrnaDB ES6 SDK Transaction Example:
+    const rows = db.tables("users").transaction(txns => {
+        txns
+            // Enable serializable isolation level for this transaction
+            .serializable(true)
+            .put("users", rows => {
+                rows
+                    .set("name", "Leon Ding")
+                    .set("age", 26)
+                    .set("address", address => {
+                        address
+                            .put("🌍 nation", "China")
+                            .put("🌆 city", "Shanghai")
+                            .put("📧 zipcode", 2000001);
+                    })
+                    .set("hobbies", ["🏸️ badminton", "🎮 games", "🎵 music"]);
+            })
+            .patch("users", patch => {
+                patch
+                    .where(where => {
+                        where.eq("id", 1);
+                    })
+                    .sets(sets => {
+                        sets
+                            .put("name", "Leon Ding")
+                            .put("address", address => {
+                                address
+                                    .put("🌆 city", "Singapore")
+                            })
+                    });
+            });
+    });
+
+    assert.equal(rows, 2);
+
+});

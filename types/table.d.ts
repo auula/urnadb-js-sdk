@@ -9,6 +9,14 @@ interface WhereBuilder {
     build(): Record<string, unknown>;
 }
 
+interface Transaction {
+    serializable(enabled?: boolean): this;
+    put(table: string, build: (rows: TableRowsBuilder) => void): this;
+    query(table: string, build: (builder: WhereBuilder) => void): this;
+    delete(table: string, build: (builder: WhereBuilder) => void): this;
+    patch(table: string, build: (patcher: TableRowsPatcher) => void): this;
+}
+
 export class TableRowsBuilder {
     set(column: string, build: (builder: MapBuilder) => void): this;
     set(column: string, value: unknown): this;
@@ -33,4 +41,5 @@ export class Table {
     query(build: (builder: WhereBuilder) => void): number;
     delete(build: (builder: WhereBuilder) => void): number;
     patch(build: (patcher: TableRowsPatcher) => void): number;
+    transaction(build: (transaction: Transaction) => void): number;
 }

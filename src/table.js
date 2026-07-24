@@ -4,6 +4,12 @@ export {
     TableRowsPatcher
 };
 
+export const OperationType = Object.freeze({
+    INSERT: "INSERT",
+    UPDATE: "UPDATE",
+    REMOVE: "REMOVE",
+});
+
 class Table {
 
     #name;
@@ -75,6 +81,137 @@ class Table {
         console.log(JSON.stringify(json, null, 4));
 
         return 1;
+    }
+
+
+    transaction(callback) {
+
+        const txns = new Transaction();
+
+        callback(txns);
+
+        console.log(JSON.stringify({
+            mutations: txns.mutations.map(mutation => ({
+                name: mutation.name,
+                operation: mutation.operation,
+                where: mutation.conditions,
+                values: mutation.data
+            })),
+            serializable: txns.isolation
+        }, null, 4));
+
+        return 1;
+    }
+}
+
+class Transaction {
+
+    #mutations = [];
+    #isolation = false;
+
+    constructor() {
+        this.#mutations = [];
+    }
+
+    serializable(enabled = false) {
+        this.#isolation = enabled;
+        return this;
+    }
+
+    patch(name, callback) {
+
+        const patcher = new TableRowsPatcher();
+
+        callback(patcher);
+
+        this.mutations.push(new TableMutation({
+            name,
+            operation: OperationType.UPDATE,
+            conditions: patcher.build().where,
+            data: patcher.build().sets
+        }));
+
+        return this;
+    }
+
+    put(name, callback) {
+
+        const builder = new TableRowsBuilder();
+
+        callback(builder);
+
+        this.mutations.push(new TableMutation({
+            name,
+            operation: OperationType.INSERT,
+            data: builder.build()
+        }));
+
+        return this;
+    }
+
+    delete(name, callback) {
+
+        const builder = new WhereBuilder();
+
+        callback(builder);
+
+        this.mutations.push(new TableMutation({
+            name,
+            operation: OperationType.REMOVE,
+            conditions: builder.build(),
+        }));
+
+        return this;
+    }
+
+    get mutations() {
+        return this.#mutations;
+    }
+
+    get isolation() {
+        return this.#isolation;
+    }
+
+}
+
+class TableMutation {
+
+    #name;
+    #operation;
+    #conditions;
+    #data;
+
+    constructor({
+        name = "",
+        operation = null,
+        conditions = {},
+        data = {},
+    } = {}) {
+
+        this.#name = name;
+        this.#operation = operation;
+        this.#conditions = conditions;
+        this.#data = data;
+    }
+
+
+    get name() {
+        return this.#name;
+    }
+
+
+    get operation() {
+        return this.#operation;
+    }
+
+
+    get conditions() {
+        return this.#conditions;
+    }
+
+
+    get data() {
+        return this.#data;
     }
 }
 
@@ -198,4 +335,5 @@ class TableRowsPatcher {
         };
 
     }
+
 }

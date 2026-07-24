@@ -35,7 +35,11 @@ export default class UrnaDB {
     }
 
     tables(name) {
-        return new Table(name, this.#options.baseUrl());
+        return new Table(
+            name,
+            this.#options.baseUrl(),
+            this.#options.token
+        );
     }
 
 }
