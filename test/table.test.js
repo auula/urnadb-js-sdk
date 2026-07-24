@@ -66,6 +66,17 @@ test("should update table row data", () => {
 test("should delete table row data", () => {
 
     const id = db.tables("users").delete(where => {
+        where.eq("name", "Leon Ding");
+    });
+
+    assert.equal(id, 1);
+
+});
+
+
+test("should query table row data", () => {
+
+    const id = db.tables("users").query(where => {
         where.eq("id", 1);
     });
 

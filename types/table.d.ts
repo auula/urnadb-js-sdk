@@ -30,5 +30,7 @@ export class Table {
     constructor(name: string, baseUrl: string);
 
     put(build: (rows: TableRowsBuilder) => void): number;
+    query(build: (builder: WhereBuilder) => void): number;
+    delete(build: (builder: WhereBuilder) => void): number;
     patch(build: (patcher: TableRowsPatcher) => void): number;
 }
