@@ -46,6 +46,21 @@ class Table {
 
         return 1;
     }
+
+    delete(callback) {
+
+        const builder = new WhereBuilder();
+
+        callback(builder);
+
+        const json = builder.build();
+
+        // TODO: send HTTP request to DB Server
+
+        console.log(JSON.stringify(json, null, 4));
+
+        return 1;
+    }
 }
 
 

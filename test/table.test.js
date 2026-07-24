@@ -61,3 +61,14 @@ test("should update table row data", () => {
     assert.equal(id, 1);
 
 });
+
+
+test("should delete table row data", () => {
+
+    const id = db.tables("users").delete(where => {
+        where.eq("id", 1);
+    });
+
+    assert.equal(id, 1);
+
+});
