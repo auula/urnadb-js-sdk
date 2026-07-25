@@ -34,7 +34,7 @@ export default class UrnaDB {
         return name;
     }
 
-    tables(name) {
+    tables(name = null) {
         return new Table(
             name,
             this.#options.baseUrl(),

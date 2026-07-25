@@ -100,7 +100,7 @@ class Table {
             serializable: txns.isolation
         }, null, 4));
 
-        return 1;
+        return 2;
     }
 }
 

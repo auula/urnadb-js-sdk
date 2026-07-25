@@ -94,7 +94,7 @@ test("should build a transaction with multiple table", () => {
     });
 
     // UrnaDB ES6 SDK Transaction Example:
-    const rows = db.tables("users").transaction(txns => {
+    const rows = db.tables().transaction(txns => {
         txns
             // Enable serializable isolation level for this transaction
             .serializable(true)
