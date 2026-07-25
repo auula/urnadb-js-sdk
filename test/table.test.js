@@ -106,7 +106,7 @@ test("should build a transaction with multiple table", () => {
                         address
                             .put("🌍 nation", "China")
                             .put("🌆 city", "Shanghai")
-                            .put("📧 zipcode", 2000001);
+                            .put("📧 zipcode", 200001);
                     })
                     .set("hobbies", ["🏸️ badminton", "🎮 games", "🎵 music"]);
             })
@@ -120,7 +120,7 @@ test("should build a transaction with multiple table", () => {
                             .put("name", "Leon Ding")
                             .put("address", address => {
                                 address
-                                    .put("🌆 city", "Singapore")
+                                    .put("🌆 city", "Singapore");
                             })
                     });
             });
