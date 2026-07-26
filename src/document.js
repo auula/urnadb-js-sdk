@@ -1,21 +1,21 @@
-export class Record {
+export class Document {
 
-    #record;
+    #document;
 
-    constructor(record = {}) {
-        this.#record = record;
+    constructor(document = {}) {
+        this.#document = document;
     }
 
 
-    get record() {
-        return this.#record;
+    get document() {
+        return this.#document;
     }
 
 
     has(key) {
         const keys = key.split(".");
 
-        let current = this.#record;
+        let current = this.#document;
 
         for (const k of keys) {
             if (
@@ -36,7 +36,7 @@ export class Record {
 
         const keys = key.split(".");
 
-        let current = this.#record;
+        let current = this.#document;
 
 
         for (const k of keys) {
@@ -63,7 +63,7 @@ export class Record {
 
 
     build() {
-        return this.#record;
+        return this.#document;
     }
 
 }

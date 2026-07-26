@@ -16,7 +16,7 @@ test("root entry should support default and named imports", async () => {
         "UrnaDB",
         "ServerOptions",
         "Variant",
-        "Record",
+        "Document",
         "Table",
         "Claim",
         "TableRowsBuilder",

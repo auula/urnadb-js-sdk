@@ -12,8 +12,11 @@
       "variant": [
         "types/variant.d.ts"
       ],
-      "record": [
-        "types/record.d.ts"
+      "document": [
+        "types/document.d.ts"
+      ],
+      "claim": [
+        "types/claim.d.ts"
       ]
     }
   },
@@ -30,9 +33,13 @@
       "types": "./types/variant.d.ts",
       "import": "./src/variant.js"
     },
-    "./record": {
-      "types": "./types/record.d.ts",
-      "import": "./src/record.js"
+    "./document": {
+      "types": "./types/document.d.ts",
+      "import": "./src/document.js"
+    },
+    "./claim": {
+      "types": "./types/claim.d.ts",
+      "import": "./src/claim.js"
     }
   },
   "files": [

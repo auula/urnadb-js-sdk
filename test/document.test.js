@@ -1,10 +1,10 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 
-import { Record } from "urnadb-js-sdk";
+import { Document } from "urnadb-js-sdk";
 
 
-test("should create record", () => {
+test("should create document", () => {
 
     const user = {
         name: "Leon Ding",
@@ -18,21 +18,21 @@ test("should create record", () => {
     };
 
 
-    const record = new Record(user);
+    const document = new Document(user);
 
 
     // 验证 build 返回完整数据
-    assert.deepStrictEqual(record.build(), user);
+    assert.deepStrictEqual(document.build(), user);
 
     // 验证是否存在字段
-    assert.equal(record.has("address.zipcode"), true);
+    assert.equal(document.has("address.zipcode"), true);
 
 });
 
 
-test("should search record", () => {
+test("should search document", () => {
 
-    const record = new Record({
+    const document = new Document({
         name: "Leon Ding",
         age: 26,
         email: "ding_ms@outlook.com",
@@ -44,6 +44,6 @@ test("should search record", () => {
     });
 
 
-    assert.equal(record.search("address.city"), "Shanghai");
+    assert.equal(document.search("address.city"), "Shanghai");
 
 });
