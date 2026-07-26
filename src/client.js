@@ -1,4 +1,5 @@
 import { Table } from "./table.js";
+import { Variant } from "./variant.js";
 import { ServerOptions } from "./options.js";
 
 export default class UrnaDB {
@@ -39,6 +40,13 @@ export default class UrnaDB {
             name,
             this.#options.baseUrl(),
             this.#options.token
+        );
+    }
+
+    variant(name, value = {}) {
+        return new Variant(
+            name,
+            value
         );
     }
 
