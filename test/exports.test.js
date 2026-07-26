@@ -18,6 +18,7 @@ test("root entry should support default and named imports", async () => {
         "Variant",
         "Record",
         "Table",
+        "Claim",
         "TableRowsBuilder",
         "TableRowsPatcher"
     ]) {

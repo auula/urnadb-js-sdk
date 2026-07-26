@@ -1,3 +1,4 @@
+import { Claim } from "./claim.js";
 import { Table } from "./table.js";
 import { Variant } from "./variant.js";
 import { ServerOptions } from "./options.js";
@@ -47,6 +48,13 @@ export default class UrnaDB {
         return new Variant(
             name,
             value
+        );
+    }
+
+    claims(name) {
+        return new Claim(
+            name,
+            30
         );
     }
 
