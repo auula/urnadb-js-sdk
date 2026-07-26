@@ -1,4 +1,4 @@
-export default class ServerOptions {
+export class ServerOptions {
 
     #host;
     #port;

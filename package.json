@@ -8,6 +8,9 @@
     "*": {
       "table": [
         "types/table.d.ts"
+      ],
+      "variant": [
+        "types/variant.d.ts"
       ]
     }
   },
@@ -19,6 +22,10 @@
     "./table": {
       "types": "./types/table.d.ts",
       "import": "./src/table.js"
+    },
+    "./variant": {
+      "types": "./types/variant.d.ts",
+      "import": "./src/variant.js"
     }
   },
   "files": [

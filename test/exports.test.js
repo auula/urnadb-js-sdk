@@ -15,6 +15,7 @@ test("root entry should support default and named imports", async () => {
     for (const expname of [
         "UrnaDB",
         "ServerOptions",
+        "Variant",
         "Table",
         "TableRowsBuilder",
         "TableRowsPatcher"

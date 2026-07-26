@@ -1,11 +1,5 @@
 import { Table } from "./table.js";
 
-export {
-    Table,
-    TableRowsBuilder,
-    TableRowsPatcher
-} from "./table.js";
-
 export interface ServerOptionsInit {
     host?: string;
     port?: number;

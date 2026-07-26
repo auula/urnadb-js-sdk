@@ -1,5 +1,5 @@
 import { Table } from "./table.js";
-import ServerOptions from "./options.js";
+import { ServerOptions } from "./options.js";
 
 export default class UrnaDB {
 
