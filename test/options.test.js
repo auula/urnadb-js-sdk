@@ -4,7 +4,7 @@ import assert from "node:assert/strict";
 import UrnaDB, { ServerOptions } from "urnadb-js-sdk";
 
 
-test("ServerOptions should generate base URL", () => {
+test("should generate base URL", () => {
 
     const options = new ServerOptions({
         host: "192.168.31.221",
@@ -21,7 +21,7 @@ test("ServerOptions should generate base URL", () => {
 });
 
 
-test("ServerOptions should expose read-only values without enumerable storage", () => {
+test("should expose read-only values without enumerable storage", () => {
 
     const options = new ServerOptions({
         host: "192.168.31.221",
@@ -38,7 +38,7 @@ test("ServerOptions should expose read-only values without enumerable storage", 
 });
 
 
-test("UrnaDB should accept a ServerOptions instance", () => {
+test("should accept a ServerOptions instance", () => {
 
     const options = new ServerOptions({
         host: "192.168.31.221",

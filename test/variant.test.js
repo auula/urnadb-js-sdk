@@ -27,10 +27,10 @@ test("should type variant", () => {
         age: 26,
     };
 
-
+    
     const obj = new Variant(expected);
 
-    
+
     assert.deepStrictEqual(
         obj.build(),
         expected
