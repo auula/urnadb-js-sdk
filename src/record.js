@@ -12,16 +12,6 @@ export class Record {
     }
 
 
-    set(key, value) {
-        this.#record[key] = value;
-    }
-
-
-    get(key) {
-        return this.#record[key];
-    }
-
-
     has(key) {
         const keys = key.split(".");
 

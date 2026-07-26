@@ -15,6 +15,9 @@ test("should type variant", () => {
 
     assert.equal(num.build(), 1024);
 
+    assert.equal(num.incr(1024), 1024 << 1);
+    
+    assert.equal(num.incr(-1024), 2048 >> 1);
 
     const bool = new Variant(true);
 
@@ -27,7 +30,7 @@ test("should type variant", () => {
         age: 26,
     };
 
-    
+
     const obj = new Variant(expected);
 
 

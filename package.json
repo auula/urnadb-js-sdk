@@ -11,6 +11,9 @@
       ],
       "variant": [
         "types/variant.d.ts"
+      ],
+      "record": [
+        "types/record.d.ts"
       ]
     }
   },
@@ -26,6 +29,10 @@
     "./variant": {
       "types": "./types/variant.d.ts",
       "import": "./src/variant.js"
+    },
+    "./record": {
+      "types": "./types/record.d.ts",
+      "import": "./src/record.js"
     }
   },
   "files": [
