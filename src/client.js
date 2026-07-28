@@ -1,6 +1,7 @@
 import { Claim } from "./claim.js";
 import { Table } from "./table.js";
 import { Variant } from "./variant.js";
+import { Document } from "./document.js";
 import { ServerOptions } from "./options.js";
 
 export default class UrnaDB {
@@ -42,6 +43,10 @@ export default class UrnaDB {
             this.#options.baseUrl(),
             this.#options.token
         );
+    }
+
+    document(name) {
+        return new Document(name);
     }
 
     variant(name, value = {}) {

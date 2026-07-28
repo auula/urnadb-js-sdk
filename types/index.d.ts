@@ -1,3 +1,5 @@
+import { Claim } from "../src/claim.js";
+import { Document } from "../src/document.js";
 import { Table } from "./table.js";
 
 export interface ServerOptionsInit {
@@ -26,7 +28,9 @@ export class UrnaDB {
     static OpenConnection(options?: ServerOptions | ServerOptionsInit): UrnaDB;
 
     createTable(name: string, ttl?: number | null): string;
+    claims(name: string): Claim;
     tables(name: string): Table;
+    document(name: string): Document;
 }
 
 export default UrnaDB;

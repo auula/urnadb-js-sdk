@@ -1,14 +1,22 @@
 export class Document {
 
+    #name;
     #document;
 
-    constructor(document = {}) {
+    constructor(name, document = {}) {
+        this.#name = name;
         this.#document = document;
     }
 
 
     get document() {
         return this.#document;
+    }
+
+
+    put(document = {}) {
+        this.#document = document;
+        return true;
     }
 
 
