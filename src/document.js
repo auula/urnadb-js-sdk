@@ -2,21 +2,21 @@ export class Document {
 
     #name;
     #document;
+    #options;  // ServerOptions | null
 
-    constructor(name, document = {}) {
+    constructor(name, document = {}, options = null) {
         this.#name = name;
         this.#document = document;
+        this.#options = options;
     }
 
+    // 静态工厂：纯本地构建，用于 db.save() 批量提交
+    static from(name, document = {}) {
+        return new Document(name, document, null);
+    }
 
     get document() {
         return this.#document;
-    }
-
-
-    put(document = {}) {
-        this.#document = document;
-        return true;
     }
 
 

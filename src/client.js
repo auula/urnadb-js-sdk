@@ -63,4 +63,32 @@ export default class UrnaDB {
         );
     }
 
+    save(...items) {
+        for (const item of items) {
+            switch (item.constructor) {
+                case Document:
+                    break;
+
+                case Variant:
+                    break;
+
+                default:
+                    throw new Error(`Unknown support type: ${item.constructor.name}`);
+            }
+        }
+
+        // 发送批量请求
+        const response = await fetch(
+            `${this.#options.baseUrl()}/batch`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${this.#options.token}`
+                },
+                body: JSON.stringify({ mutations })
+            }
+        );
+    }
+
 }

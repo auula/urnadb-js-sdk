@@ -1,5 +1,6 @@
 import { Claim } from "../src/claim.js";
 import { Document } from "../src/document.js";
+import { Variant } from "../src/variant.js";
 import { Table } from "./table.js";
 
 export interface ServerOptionsInit {
@@ -31,6 +32,7 @@ export class UrnaDB {
     claims(name: string): Claim;
     tables(name: string): Table;
     document(name: string): Document;
+    save(items: Variant | Document): number;
 }
 
 export default UrnaDB;
