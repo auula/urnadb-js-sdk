@@ -38,7 +38,7 @@ export default class UrnaDB {
     }
 
     // 统一使用单数形式
-    table(name) {
+    tables(name) {
         return new Table(
             name,
             this.#options.baseUrl(),
@@ -46,15 +46,15 @@ export default class UrnaDB {
         );
     }
 
-    document(name) {
+    documents(name) {
         return new Document(name, {}, this.#options);
     }
 
-    variant(name, value = null) {
+    variants(name) {
         return new Variant(name, value, this.#options);
     }
 
-    claim(name) {
+    claims(name) {
         return new Claim(
             name,
             30

@@ -32,7 +32,7 @@ test("should release the claim when scoped work throws", () => {
         token: "xxxxxxxxxx"
     });
 
-    const c3 = db.claim("orders")
+    const c3 = db.claims("orders")
         .using(
             claim => {
                 // 继续保活租期
