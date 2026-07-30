@@ -22,7 +22,7 @@ test("should create table", () => {
 
 test("should insert row data into table", () => {
 
-    const id = db.tables("users").put(rows => {
+    const id = db.table("users").put(rows => {
         rows
             .set("name", "Leon Ding")
             .set("age", 26)
@@ -42,7 +42,7 @@ test("should insert row data into table", () => {
 
 test("should update table row data", () => {
 
-    const id = db.tables("users").patch(patch => {
+    const id = db.table("users").patch(patch => {
         patch
             .where(where => {
                 where.eq("id", 1);
@@ -65,7 +65,7 @@ test("should update table row data", () => {
 
 test("should delete table row data", () => {
 
-    const id = db.tables("users").delete(where => {
+    const id = db.table("users").delete(where => {
         where.eq("name", "Leon Ding");
     });
 
@@ -76,7 +76,7 @@ test("should delete table row data", () => {
 
 test("should query table row data", () => {
 
-    const id = db.tables("users").query(where => {
+    const id = db.table("users").query(where => {
         where.eq("id", 1);
     });
 
@@ -94,7 +94,7 @@ test("should build a transaction with multiple table", () => {
     });
 
     // UrnaDB ES6 SDK Transaction Example:
-    const rows = db.tables().transaction(txns => {
+    const rows = db.table().transaction(txns => {
         txns
             // Enable serializable isolation level for this transaction
             .serializable(true)

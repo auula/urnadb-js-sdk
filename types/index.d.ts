@@ -29,10 +29,11 @@ export class UrnaDB {
     static OpenConnection(options?: ServerOptions | ServerOptionsInit): UrnaDB;
 
     createTable(name: string, ttl?: number | null): string;
-    claims(name: string): Claim;
-    tables(name: string): Table;
+    claim(name: string): Claim;
+    table(name: string): Table;
+    variant(name: string): Variant;
     document(name: string): Document;
-    save(items: Variant | Document): number;
+    save(...items: Array<Variant | Document>): Promise<any>;
 }
 
 export default UrnaDB;

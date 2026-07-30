@@ -15,11 +15,23 @@ export class Document {
         return new Document(name, document, null);
     }
 
+    get name() {
+        return this.#name;
+    }
+
     get document() {
         return this.#document;
     }
 
+    // ========== 本地操作方法 ==========
 
+    // 合并对象
+    merge(data) {
+        this.#document = { ...this.#document, ...data };
+        return this;
+    }
+
+    // ========== 查询方法 ==========
     has(key) {
         const keys = key.split(".");
 
@@ -63,12 +75,27 @@ export class Document {
         return current;
     }
 
+    // 从服务器查询文档
+    async query(key) {
+        if (!this.#options) {
+            throw new Error("Cannot query without server options");
+        }
 
-    // query 直接查询服务的
-    query(key) {
-        return undefined;
+        // TODO: 发送 HTTP 请求到服务器
+        // GET /document/{name}?key={key}
+        const response = await fetch(
+            `${this.#options.baseUrl()}/document/${this.#name}?key=${key}`,
+            {
+                headers: {
+                    "Authorization": `Bearer ${this.#options.token}`
+                }
+            }
+        );
+
+        const data = await response.json();
+        this.#document = data;
+        return this.#document;
     }
-
 
     build() {
         return this.#document;

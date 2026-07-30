@@ -1,73 +1,73 @@
-// import test from "node:test";
-// import assert from "node:assert/strict";
+import test from "node:test";
+import assert from "node:assert/strict";
 
-// import UrnaDB, { Document } from "urnadb-js-sdk";
-
-
-// test("should open connection and put document", () => {
-
-//     const db = UrnaDB.OpenConnection({
-//         host: "127.0.0.1",
-//         port: 2668,
-//         token: "xxxxxxxxxx"
-//     });
-
-//     const bool = db.document("user").put({
-//         name: "Leon Ding",
-//         age: 26,
-//         email: "ding_ms@outlook.com",
-//         address: {
-//             nation: "China",
-//             city: "Shanghai",
-//             zipcode: 200001
-//         }
-//     });
-
-//     assert.equal(bool, true);
-
-// });
+import { Document } from "urnadb-js-sdk";
 
 
-// test("should create document", () => {
+test("should create document with static factory", () => {
+    const document = Document.from("userinfo", {
+        name: "Leon Ding",
+        age: 26
+    });
 
-//     const user = {
-//         name: "Leon Ding",
-//         age: 26,
-//         email: "ding_ms@outlook.com",
-//         address: {
-//             nation: "China",
-//             city: "Shanghai",
-//             zipcode: 200001
-//         }
-//     };
-
-
-//     const document = new Document("userinfo", user);
+    assert.equal(document.name, "userinfo");
+    assert.deepStrictEqual(document.build(), {
+        name: "Leon Ding",
+        age: 26
+    });
+});
 
 
-//     // 验证 build 返回完整数据
-//     assert.deepStrictEqual(document.build(), user);
+test("should merge data", () => {
+    const document = Document.from("user", {
+        name: "Leon",
+        age: 25
+    });
 
-//     // 验证是否存在字段
-//     assert.equal(document.has("address.zipcode"), true);
+    document.merge({
+        age: 26,
+        email: "test@example.com"
+    });
 
-// });
-
-
-// test("should search document", () => {
-
-//     const document = new Document("userinfo", {
-//         name: "Leon Ding",
-//         age: 26,
-//         email: "ding_ms@outlook.com",
-//         address: {
-//             nation: "China",
-//             city: "Shanghai",
-//             zipcode: 200001
-//         }
-//     });
+    const built = document.build();
+    assert.equal(built.name, "Leon");
+    assert.equal(built.age, 26);
+    assert.equal(built.email, "test@example.com");
+});
 
 
-//     assert.equal(document.search("address.city"), "Shanghai");
+test("should check if field exists", () => {
+    const document = Document.from("userinfo", {
+        name: "Leon Ding",
+        age: 26,
+        address: {
+            city: "Shanghai",
+            zipcode: 200001
+        }
+    });
 
-// });
+    assert.equal(document.has("name"), true);
+    assert.equal(document.has("age"), true);
+    assert.equal(document.has("address.city"), true);
+    assert.equal(document.has("address.zipcode"), true);
+    assert.equal(document.has("address.country"), false);
+    assert.equal(document.has("phone"), false);
+});
+
+
+test("should search field value", () => {
+    const document = Document.from("userinfo", {
+        name: "Leon Ding",
+        age: 26,
+        address: {
+            city: "Shanghai",
+            zipcode: 200001
+        }
+    });
+
+    assert.equal(document.search("name"), "Leon Ding");
+    assert.equal(document.search("age"), 26);
+    assert.equal(document.search("address.city"), "Shanghai");
+    assert.equal(document.search("address.zipcode"), 200001);
+    assert.equal(document.search("nonexistent"), undefined);
+});

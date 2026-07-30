@@ -37,7 +37,8 @@ export default class UrnaDB {
         return name;
     }
 
-    tables(name = null) {
+    // 统一使用单数形式
+    table(name) {
         return new Table(
             name,
             this.#options.baseUrl(),
@@ -46,34 +47,36 @@ export default class UrnaDB {
     }
 
     document(name) {
-        return new Document(name);
+        return new Document(name, {}, this.#options);
     }
 
-    variant(name, value = {}) {
-        return new Variant(
-            name,
-            value
-        );
+    variant(name, value = null) {
+        return new Variant(name, value, this.#options);
     }
 
-    claims(name) {
+    claim(name) {
         return new Claim(
             name,
             30
         );
     }
 
-    save(...items) {
+    // 批量保存文档和变体
+    async save(...items) {
+        const mutations = [];
+
         for (const item of items) {
             switch (item.constructor) {
                 case Document:
+                    
                     break;
 
                 case Variant:
+
                     break;
 
                 default:
-                    throw new Error(`Unknown support type: ${item.constructor.name}`);
+                    throw new Error(`Unsupported item type: ${item.constructor.name}`);
             }
         }
 
@@ -89,6 +92,8 @@ export default class UrnaDB {
                 body: JSON.stringify({ mutations })
             }
         );
+
+        return response.json();
     }
 
 }
