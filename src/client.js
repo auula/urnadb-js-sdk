@@ -37,7 +37,6 @@ export default class UrnaDB {
         return name;
     }
 
-    // 统一使用单数形式
     tables(name) {
         return new Table(
             name,
@@ -50,7 +49,7 @@ export default class UrnaDB {
         return new Document(name, {}, this.#options);
     }
 
-    variants(name) {
+    variants(name, value = null) {
         return new Variant(name, value, this.#options);
     }
 
@@ -63,37 +62,57 @@ export default class UrnaDB {
 
     // 批量保存文档和变体
     async save(...items) {
-        const mutations = [];
+        const results = [];
 
-        for (const item of items) {
+        const promises = items.map(async (item) => {
+            let response;
+            
             switch (item.constructor) {
                 case Document:
-                    
+                    response = await fetch(
+                        `${this.#options.baseUrl()}/records/${item.name}`,
+                        {
+                            method: "PUT",
+                            headers: {
+                                "Content-Type": "application/json",
+                                "Auth-Token": this.#options.token
+                            },
+                            body: JSON.stringify({
+                                record: item.build()
+                            })
+                        }
+                    );
                     break;
 
                 case Variant:
-
+                    response = await fetch(
+                        `${this.#options.baseUrl()}/variants/${item.name}`,
+                        {
+                            method: "PUT",
+                            headers: {
+                                "Content-Type": "application/json",
+                                "Auth-Token": this.#options.token
+                            },
+                            body: JSON.stringify({
+                                variant: item.build()
+                            })
+                        }
+                    );
                     break;
 
                 default:
-                    throw new Error(`Unsupported item type: ${item.constructor.name}`);
+                    throw new Error(`Unsupported type: ${item.constructor.name}`);
             }
-        }
 
-        // 发送批量请求
-        const response = await fetch(
-            `${this.#options.baseUrl()}/batch`,
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${this.#options.token}`
-                },
-                body: JSON.stringify({ mutations })
+            if (!response.ok) {
+                const error = await response.json();
+                throw new Error(`Failed to save ${item.name}: ${error.message || response.statusText}`);
             }
-        );
 
-        return response.json();
+            return response.json();
+        });
+
+        return Promise.all(promises);
     }
 
 }

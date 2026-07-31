@@ -35,11 +35,11 @@ test("root entry should support default and named imports", async () => {
 
     assert.ok(db instanceof sdk.UrnaDB);
     
-    // 测试单数形式的 API
-    assert.ok(db.table("users") instanceof sdk.Table);
-    assert.ok(db.document("config") instanceof sdk.Document);
-    assert.ok(db.variant("counter") instanceof sdk.Variant);
-    assert.ok(db.claim("auth") instanceof sdk.Claim);
+    // 测试复数形式的 API
+    assert.ok(db.tables("users") instanceof sdk.Table);
+    assert.ok(db.documents("config") instanceof sdk.Document);
+    assert.ok(db.variants("counter") instanceof sdk.Variant);
+    assert.ok(db.claims("auth") instanceof sdk.Claim);
 
 });
 
