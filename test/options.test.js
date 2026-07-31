@@ -15,7 +15,7 @@ test("should generate base URL", () => {
 
     assert.equal(
         options.baseUrl(),
-        "https://192.168.31.221:2668"
+        "http://192.168.31.221:2668"
     );
 
 });
@@ -23,11 +23,12 @@ test("should generate base URL", () => {
 
 test("should expose read-only values without enumerable storage", () => {
 
-    const options = new ServerOptions({
-        host: "192.168.31.221",
-        port: 2668,
-        token: "connection-secret-token"
-    });
+    const options = ServerOptions.builder()
+        .host("192.168.31.221")
+        .port(2668)
+        .token("connection-secret-token")
+        .protocol("https")
+        .build();
 
 
     assert.equal(options.host, "192.168.31.221");

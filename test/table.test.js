@@ -5,18 +5,17 @@ import UrnaDB from "urnadb-js-sdk";
 
 
 const db = UrnaDB.OpenConnection({
-    host: "127.0.0.1",
+    host: "192.168.3.20",
     port: 2668,
-    token: "xxxxxxxxxx"
+    token: "ScxhC7vmQjEeBmFPTUFIkrvzE",
 });
 
 
-test("should create table", () => {
+test("should create table", async () => {
 
-    const name = db.createTable("users");
+    const result = await db.createTable("users");
 
-    assert.equal(name, "users");
-
+    assert.equal(result.status, "success");
 });
 
 

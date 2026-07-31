@@ -6,7 +6,7 @@ import UrnaDB, { Document, Variant } from "urnadb-js-sdk";
 const db = UrnaDB.OpenConnection({
     host: "192.168.3.20",
     port: 2668,
-    token: "hxqwGxD1bluGBieYTycd2GM7R"
+    token: "rEFVhjWuYW1pcgVLB31GkLhHb"
 });
 
 
@@ -39,7 +39,7 @@ test("should save a single variant", async () => {
 
 
 test("should save multiple documents and variants", async () => {
-    const doc1 = Document.from("config", {
+    const doc1 = Document.from("user.config", {
         theme: "dark",
         language: "zh-CN"
     });

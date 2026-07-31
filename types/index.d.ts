@@ -7,6 +7,7 @@ export interface ServerOptionsInit {
     host?: string;
     port?: number;
     token?: string;
+    protocol?: "http" | "https";
 }
 
 export class ServerOptions {
@@ -15,12 +16,25 @@ export class ServerOptions {
     readonly host: string;
     readonly port: number;
     readonly token: string;
+    readonly protocol: string;
 
     baseUrl(): string;
+
+    static builder(): ServerOptionsBuilder;
 }
 
+
+export class ServerOptionsBuilder {
+    host(value: string): this;
+    port(value: number): this;
+    token(value: string): this;
+    protocol(value: string): this;
+    build(): ServerOptions;
+}
+
+
 export class UrnaDB {
-    constructor(host: string, port: number, token: string);
+    constructor(host: string, port: number, token: string, protocol?: string);
 
     host: string;
     port: number;
@@ -28,7 +42,8 @@ export class UrnaDB {
 
     static OpenConnection(options?: ServerOptions | ServerOptionsInit): UrnaDB;
 
-    createTable(name: string, ttl?: number | null): string;
+    // createTable(name: string, ttl?: number | null): string;
+    createTable(name: string): Promise<any>;
     claims(name: string): Claim;
     tables(name: string): Table;
     variants(name: string): Variant;

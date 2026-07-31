@@ -8,15 +8,17 @@ export default class UrnaDB {
 
     #options;
 
-    constructor(host, port, token) {
+    constructor(host, port, token, protocol = 'http') {
         this.host = host;
         this.port = port;
         this.token = token;
+        this.protocol = protocol;
 
         this.#options = new ServerOptions({
             host: this.host,
             port: this.port,
-            token: this.token
+            token: this.token,
+            protocol: this.protocol
         });
     }
 
@@ -29,12 +31,29 @@ export default class UrnaDB {
         return new UrnaDB(
             options.host,
             options.port,
-            options.token
+            options.token,
+            options.protocol
         );
     }
 
-    createTable(name, ttl = null) {
-        return name;
+    async createTable(name) {
+        const response = await fetch(
+            `${this.#options.baseUrl()}/tables/${name}`,
+            {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Auth-Token": this.#options.token
+                }
+            }
+        );
+
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(`Failed to create table ${name}: ${error.message || response.statusText}`);
+        }
+
+        return response.json();
     }
 
     tables(name) {
@@ -46,11 +65,11 @@ export default class UrnaDB {
     }
 
     documents(name) {
-        return new Document(name, {}, this.#options);
+        return new Document(name, null, this.#options);
     }
 
-    variants(name, value = null) {
-        return new Variant(name, value, this.#options);
+    variants(name) {
+        return new Variant(name, null, this.#options);
     }
 
     claims(name) {
@@ -62,11 +81,8 @@ export default class UrnaDB {
 
     // 批量保存文档和变体
     async save(...items) {
-        const results = [];
-
+        let response = {};
         const promises = items.map(async (item) => {
-            let response;
-            
             switch (item.constructor) {
                 case Document:
                     response = await fetch(
