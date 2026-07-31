@@ -35,7 +35,6 @@ test("should insert row data into table", async () => {
     });
 
     assert.equal(result.status, "success");
-
 });
 
 
@@ -58,29 +57,26 @@ test("should update table row data", async () => {
     });
 
     assert.equal(result.status, "success");
-
 });
 
 
-test("should delete table row data", () => {
+test("should delete table row data", async () => {
 
-    const id = db.tables("users").delete(where => {
+    const result = await db.tables("users").delete(where => {
         where.eq("name", "Leon Ding");
     });
 
-    assert.equal(id, 1);
-
+    assert.equal(result.status, "success");
 });
 
 
-test("should query table row data", () => {
+test("should query table row data", async () => {
 
-    const id = db.tables("users").query(where => {
-        where.eq("id", 1);
+    const result = await db.tables("users").query(where => {
+        where.eq("name", "Leon Ding");
     });
 
-    assert.equal(id, 1);
-
+    assert.equal(result.status, "success");
 });
 
 

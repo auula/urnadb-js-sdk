@@ -1,4 +1,4 @@
-import { ServerOptions } from "../src/options";
+import { ServerOptions } from "../src/options.js";
 
 interface MapBuilder {
     put(key: string, build: (builder: MapBuilder) => void): this;
@@ -43,8 +43,8 @@ export class Table {
     readonly options: ServerOptions;
 
     put(build: (rows: TableRowsBuilder) => void): Promise<any>;
-    query(build: (builder: WhereBuilder) => void): number;
-    delete(build: (builder: WhereBuilder) => void): number;
+    query(build: (builder: WhereBuilder) => void): Promise<any>;
+    delete(build: (builder: WhereBuilder) => void): Promise<any>;
     patch(build: (patcher: TableRowsPatcher) => void): Promise<any>;
     transaction(build: (transaction: Transaction) => void): number;
 }

@@ -104,28 +104,62 @@ class Table {
 
         callback(builder);
 
-        const json = builder.build();
+        const response = await fetch(
+            `${this.options.baseUrl()}/tables/${this.#name}/query`,
+            {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Auth-Token": this.#options.token
+                },
+                body: JSON.stringify({
+                    wheres: builder.build()
+                })
+            }
+        );
 
-        // TODO: send HTTP request to DB Server
 
-        console.log(JSON.stringify(json, null, 4));
+        const result = await response.json();
 
-        return 1;
+        if (!response.ok) {
+            throw new Error(
+                `Failed to delete table ${this.#name}: ${result.message || response.statusText}`
+            );
+        }
+
+        return result;
     }
 
-    query(callback) {
+    async query(callback) {
 
         const builder = new WhereBuilder();
 
         callback(builder);
 
-        const json = builder.build();
+        const response = await fetch(
+            `${this.options.baseUrl()}/tables/${this.#name}/query`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Auth-Token": this.#options.token
+                },
+                body: JSON.stringify({
+                    wheres: builder.build()
+                })
+            }
+        );
 
-        // TODO: send HTTP request to DB Server
 
-        console.log(JSON.stringify(json, null, 4));
+        const result = await response.json();
 
-        return 1;
+        if (!response.ok) {
+            throw new Error(
+                `Failed to query table ${this.#name}: ${result.message || response.statusText}`
+            );
+        }
+
+        return result;
     }
 
 
