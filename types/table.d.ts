@@ -1,3 +1,5 @@
+import { ServerOptions } from "../src/options";
+
 interface MapBuilder {
     put(key: string, build: (builder: MapBuilder) => void): this;
     put(key: string, value: unknown): this;
@@ -35,11 +37,14 @@ export class TableRowsPatcher {
 }
 
 export class Table {
-    constructor(name: string, baseUrl: string);
+    constructor(name: string, options: ServerOptions);
 
-    put(build: (rows: TableRowsBuilder) => void): number;
+    readonly name: string;
+    readonly options: ServerOptions;
+
+    put(build: (rows: TableRowsBuilder) => void): Promise<any>;
     query(build: (builder: WhereBuilder) => void): number;
     delete(build: (builder: WhereBuilder) => void): number;
-    patch(build: (patcher: TableRowsPatcher) => void): number;
+    patch(build: (patcher: TableRowsPatcher) => void): Promise<any>;
     transaction(build: (transaction: Transaction) => void): number;
 }

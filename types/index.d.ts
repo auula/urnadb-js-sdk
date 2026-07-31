@@ -36,9 +36,10 @@ export class ServerOptionsBuilder {
 export class UrnaDB {
     constructor(host: string, port: number, token: string, protocol?: string);
 
-    host: string;
-    port: number;
-    token: string;
+    readonly host: string;
+    readonly port: number;
+    readonly token: string;
+    readonly options: ServerOptions;
 
     static OpenConnection(options?: ServerOptions | ServerOptionsInit): UrnaDB;
 

@@ -6,7 +6,7 @@ import UrnaDB, { Document, Variant } from "urnadb-js-sdk";
 const db = UrnaDB.OpenConnection({
     host: "192.168.3.20",
     port: 2668,
-    token: "rEFVhjWuYW1pcgVLB31GkLhHb"
+    token: "connection-secret-token",
 });
 
 

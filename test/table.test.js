@@ -7,7 +7,7 @@ import UrnaDB from "urnadb-js-sdk";
 const db = UrnaDB.OpenConnection({
     host: "192.168.3.20",
     port: 2668,
-    token: "ScxhC7vmQjEeBmFPTUFIkrvzE",
+    token: "connection-secret-token",
 });
 
 
@@ -19,9 +19,9 @@ test("should create table", async () => {
 });
 
 
-test("should insert row data into table", () => {
+test("should insert row data into table", async () => {
 
-    const id = db.tables("users").put(rows => {
+    const result = await db.tables("users").put(rows => {
         rows
             .set("name", "Leon Ding")
             .set("age", 26)
@@ -34,14 +34,14 @@ test("should insert row data into table", () => {
             .set("hobbies", ["🏸️ badminton", "🎮 games", "🎵 music"]);
     });
 
-    assert.equal(id, 1);
+    assert.equal(result.status, "success");
 
 });
 
 
-test("should update table row data", () => {
+test("should update table row data", async () => {
 
-    const id = db.tables("users").patch(patch => {
+    const result = await db.tables("users").patch(patch => {
         patch
             .where(where => {
                 where.eq("id", 1);
@@ -57,7 +57,7 @@ test("should update table row data", () => {
             });
     });
 
-    assert.equal(id, 1);
+    assert.equal(result.status, "success");
 
 });
 

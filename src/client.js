@@ -48,19 +48,19 @@ export default class UrnaDB {
             }
         );
 
+        const result = await response.json();
+
         if (!response.ok) {
-            const error = await response.json();
-            throw new Error(`Failed to create table ${name}: ${error.message || response.statusText}`);
+            throw new Error(`Failed to create table ${name}: ${result.message || response.statusText}`);
         }
 
-        return response.json();
+        return result;
     }
 
     tables(name) {
         return new Table(
             name,
-            this.#options.baseUrl(),
-            this.#options.token
+            this.#options
         );
     }
 
@@ -120,12 +120,13 @@ export default class UrnaDB {
                     throw new Error(`Unsupported type: ${item.constructor.name}`);
             }
 
+            const result = await response.json();
+
             if (!response.ok) {
-                const error = await response.json();
-                throw new Error(`Failed to save ${item.name}: ${error.message || response.statusText}`);
+                throw new Error(`Failed to save ${item.name}: ${result.message || response.statusText}`);
             }
 
-            return response.json();
+            return result;
         });
 
         return Promise.all(promises);

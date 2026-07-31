@@ -13,32 +13,57 @@ export const OperationType = Object.freeze({
 class Table {
 
     #name;
-    #baseUrl;
+    #options;
 
 
-    constructor(name, baseUrl) {
+    constructor(name, options) {
         this.#name = name;
-        this.#baseUrl = baseUrl;
+        this.#options = options;
+    }
+
+    get name() {
+        return this.#name;
+    }
+
+    get options() {
+        return this.#options;
     }
 
 
-    put(callback) {
+    async put(callback) {
 
         const rows = new TableRowsBuilder();
 
         callback(rows);
 
-        const json = rows.build();
+        const response = await fetch(
+            `${this.options.baseUrl()}/tables/${this.#name}/rows`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Auth-Token": this.#options.token
+                },
+                body: JSON.stringify({
+                    rows: rows.build()
+                })
+            }
+        );
 
-        // TODO: send HTTP request to DB Server
 
-        console.log(JSON.stringify(json, null, 4));
+        const result = await response.json();
 
-        return 1;
+        if (!response.ok) {
+            throw new Error(
+                `Failed to put rows into table ${this.#name}: ${result.message || response.statusText}`
+            );
+        }
+
+        return result;
     }
 
 
-    patch(callback) {
+    async patch(callback) {
 
         const patcher = new TableRowsPatcher();
 
@@ -46,11 +71,31 @@ class Table {
 
         const json = patcher.build();
 
-        // TODO: send HTTP request to DB Server
+        const response = await fetch(
+            `${this.options.baseUrl()}/tables/${this.#name}`,
+            {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Auth-Token": this.#options.token
+                },
+                body: JSON.stringify({
+                    wheres: json.where,
+                    sets: json.sets
+                })
+            }
+        );
 
-        console.log(JSON.stringify(json, null, 4));
 
-        return 1;
+        const result = await response.json();
+
+        if (!response.ok) {
+            throw new Error(
+                `Failed to patch rows table ${this.#name}: ${result.message || response.statusText}`
+            );
+        }
+
+        return result;
     }
 
     delete(callback) {
