@@ -98,14 +98,14 @@ class Table {
         return result;
     }
 
-    delete(callback) {
+    async delete(callback) {
 
         const builder = new WhereBuilder();
 
         callback(builder);
 
         const response = await fetch(
-            `${this.options.baseUrl()}/tables/${this.#name}/query`,
+            `${this.options.baseUrl()}/tables/${this.#name}/rows`,
             {
                 method: "DELETE",
                 headers: {
@@ -163,23 +163,42 @@ class Table {
     }
 
 
-    transaction(callback) {
+    async transaction(callback) {
 
         const txns = new Transaction();
 
         callback(txns);
 
-        console.log(JSON.stringify({
-            mutations: txns.mutations.map(mutation => ({
-                name: mutation.name,
-                operation: mutation.operation,
-                where: mutation.conditions,
-                values: mutation.data
-            })),
-            serializable: txns.isolation
-        }, null, 4));
+        const response = await fetch(
+            `${this.options.baseUrl()}/txns`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Auth-Token": this.#options.token
+                },
+                body: JSON.stringify({
+                    mutations: txns.mutations.map(mutation => ({
+                        name: mutation.name,
+                        operation: mutation.operation,
+                        where: mutation.conditions,
+                        values: mutation.data
+                    })),
+                    serializable: txns.isolation
+                })
+            }
+        );
 
-        return 2;
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            throw new Error(
+                `Failed to execute transaction on table ${this.#name}: ${result.message || response.statusText}`
+            );
+        }
+
+        return result;
     }
 }
 

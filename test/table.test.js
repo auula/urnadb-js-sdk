@@ -43,7 +43,7 @@ test("should update table row data", async () => {
     const result = await db.tables("users").patch(patch => {
         patch
             .where(where => {
-                where.eq("id", 1);
+                where.eq("t_id", 1);
             })
             .sets(sets => {
                 sets
@@ -69,27 +69,16 @@ test("should delete table row data", async () => {
     assert.equal(result.status, "success");
 });
 
-
-test("should query table row data", async () => {
-
-    const result = await db.tables("users").query(where => {
-        where.eq("name", "Leon Ding");
-    });
-
-    assert.equal(result.status, "success");
-});
-
-
-test("should build a transaction with multiple table", () => {
+test("should build a transaction with multiple table", async () => {
 
     const db = UrnaDB.OpenConnection({
-        host: "test.db.example.com",
+        host: "192.168.3.20",
         port: 2668,
         token: "connection-secret-token"
     });
 
     // UrnaDB ES6 SDK Transaction Example:
-    const rows = db.tables().transaction(txns => {
+    const result = await db.tables().transaction(txns => {
         txns
             // Enable serializable isolation level for this transaction
             .serializable(true)
@@ -108,11 +97,10 @@ test("should build a transaction with multiple table", () => {
             .patch("users", patch => {
                 patch
                     .where(where => {
-                        where.eq("id", 1);
+                        where.eq("name", "Leon Ding");
                     })
                     .sets(sets => {
                         sets
-                            .put("name", "Leon Ding")
                             .put("address", address => {
                                 address
                                     .put("🌆 city", "Singapore");
@@ -121,6 +109,18 @@ test("should build a transaction with multiple table", () => {
             });
     });
 
-    assert.equal(rows, 2);
+    assert.equal(result.status, "success");
+});
 
+
+
+test("should query table row data", async () => {
+
+    const result = await db.tables("users").query(where => {
+        where.eq("name", "Leon Ding");
+    });
+
+    assert.equal(result.status, "success");
+
+    assert.equal(result.data[0].address["🌆 city"], "Singapore");
 });

@@ -46,5 +46,5 @@ export class Table {
     query(build: (builder: WhereBuilder) => void): Promise<any>;
     delete(build: (builder: WhereBuilder) => void): Promise<any>;
     patch(build: (patcher: TableRowsPatcher) => void): Promise<any>;
-    transaction(build: (transaction: Transaction) => void): number;
+    transaction(build: (transaction: Transaction) => void): Promise<any>;
 }
