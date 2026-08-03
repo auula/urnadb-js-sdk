@@ -62,6 +62,31 @@ test("should save multiple documents and variants", async () => {
 
 });
 
+test("should fetch a single document", async () => {
+
+    const userinfo = await db.documents("user.profile");
+
+    assert.ok(userinfo instanceof Document);
+
+    assert.equal(userinfo.name, "user.profile");
+
+    assert.equal(typeof userinfo.document, "object");
+
+});
+
+
+test("should fetch a single variant", async () => {
+
+    const view = await db.variants("page.views");
+
+    assert.ok(view instanceof Variant);
+
+    assert.equal(view.name, "page.views");
+
+    assert.equal(typeof view.build(), "number");
+
+});
+
 
 test("should throw error for unsupported type", async () => {
     const invalid = { name: "invalid" };

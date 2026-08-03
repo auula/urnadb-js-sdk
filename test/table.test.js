@@ -43,11 +43,10 @@ test("should update table row data", async () => {
     const result = await db.tables("users").patch(patch => {
         patch
             .where(where => {
-                where.eq("t_id", 1);
+                where.eq("name", "Leon Ding");
             })
             .sets(sets => {
                 sets
-                    .put("name", "Leon Ding")
                     .put("age", 27)
                     .put("address", address => {
                         address

@@ -64,12 +64,50 @@ export default class UrnaDB {
         );
     }
 
-    documents(name) {
-        return new Document(name, null, this.#options);
+    async documents(name) {
+        const response = await fetch(
+            `${this.#options.baseUrl()}/records/${name}`,
+            {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Auth-Token": this.#options.token
+                }
+            }
+        );
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            throw new Error(
+                `Failed to fetch document for ${name}: ${result.message || response.statusText}`
+            );
+        }
+
+        return new Document(name, result.data, this.#options);
     }
 
-    variants(name) {
-        return new Variant(name, null, this.#options);
+    async variants(name) {
+        const response = await fetch(
+            `${this.#options.baseUrl()}/variants/${name}`,
+            {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Auth-Token": this.#options.token
+                }
+            }
+        );
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            throw new Error(
+                `Failed to fetch variant for ${name}: ${result.message || response.statusText}`
+            );
+        }
+
+        return new Variant(name, result.data, this.#options);
     }
 
     claims(name) {

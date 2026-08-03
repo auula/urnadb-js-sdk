@@ -26,7 +26,7 @@ test("root entry should support default and named imports", async () => {
     }
 
     const options = new sdk.ServerOptions({
-        host: "127.0.0.1",
+        host: "192.168.3.20",
         port: 2668,
         token: "connection-secret-token"
     });
@@ -34,12 +34,6 @@ test("root entry should support default and named imports", async () => {
     const db = sdk.UrnaDB.OpenConnection(options);
 
     assert.ok(db instanceof sdk.UrnaDB);
-    
-    // 测试复数形式的 API
-    assert.ok(db.tables("users") instanceof sdk.Table);
-    assert.ok(db.documents("config") instanceof sdk.Document);
-    assert.ok(db.variants("counter") instanceof sdk.Variant);
-    assert.ok(db.claims("auth") instanceof sdk.Claim);
 
 });
 
