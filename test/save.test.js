@@ -96,9 +96,21 @@ test("should fetch a single variant", async () => {
 
 });
 
+test("should incr a variant", async () => {
+
+    const view = await db.variants("page.views");
+
+    assert.ok(view instanceof Variant);
+
+    assert.equal(view.name, "page.views");
+
+    assert.equal(await view.incr(5), 105);
+
+});
+
 
 test("should throw error for unsupported type", async () => {
-    
+
     const invalid = { name: "invalid" };
 
     await assert.rejects(

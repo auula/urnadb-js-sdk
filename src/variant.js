@@ -19,9 +19,36 @@ export class Variant {
         return new Variant(name, value);
     }
 
-    incr(delta = 0) {
-        // 向服务器发送类似于 redis 的 incr 请求
-        this.#variant = (this.#variant ?? 0) + delta;
+    async incr(delta = 0) {
+
+        if (!this.#options) {
+            throw new Error("Cannot incr without server options");
+        }
+
+        const response = await fetch(
+            `${this.#options.baseUrl()}/variants/${this.#name}`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Auth-Token": this.#options.token
+                },
+                body: JSON.stringify({
+                    delta: delta,
+                })
+            }
+        );
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            throw new Error(
+                `Failed to incr variant ${this.#name}: ${result.message || response.statusText}`
+            );
+        }
+
+        this.#variant = result.data.variant;
+
         return this.#variant;
     }
 
