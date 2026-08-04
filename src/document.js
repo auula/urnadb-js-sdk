@@ -23,15 +23,12 @@ export class Document {
         return this.#document;
     }
 
-    // ========== 本地操作方法 ==========
-
     // 合并对象
     merge(data) {
         this.#document = { ...this.#document, ...data };
         return this;
     }
 
-    // ========== 查询方法 ==========
     has(key) {
         const keys = key.split(".");
 
@@ -76,25 +73,35 @@ export class Document {
     }
 
     // 从服务器查询文档
-    async query(key) {
+    async query(target) {
+
         if (!this.#options) {
             throw new Error("Cannot query without server options");
         }
 
-        // TODO: 发送 HTTP 请求到服务器
-        // GET /document/{name}?key={key}
         const response = await fetch(
-            `${this.#options.baseUrl()}/document/${this.#name}?key=${key}`,
+            `${this.#options.baseUrl()}/records/${this.#name}`,
             {
+                method: "POST",
                 headers: {
-                    "Authorization": `Bearer ${this.#options.token}`
-                }
+                    "Content-Type": "application/json",
+                    "Auth-Token": this.#options.token
+                },
+                body: JSON.stringify({
+                    column: target,
+                })
             }
         );
 
-        const data = await response.json();
-        this.#document = data;
-        return this.#document;
+        const result = await response.json();
+
+        if (!response.ok) {
+            throw new Error(
+                `Failed to query document field ${this.#name}: ${result.message || response.statusText}`
+            );
+        }
+
+        return result;
     }
 
     build() {

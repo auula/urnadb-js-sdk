@@ -17,7 +17,6 @@ test("should save a single document", async () => {
         email: "ding_ms@outlook.com"
     });
 
-
     const results = await db.save(doc);
     assert.ok(Array.isArray(results));
     assert.equal(results.length, 1);
@@ -28,7 +27,6 @@ test("should save a single document", async () => {
 
 test("should save a single variant", async () => {
     const counter = Variant.of("visit.count", 0);
-
 
     const results = await db.save(counter);
     assert.ok(Array.isArray(results));
@@ -50,7 +48,6 @@ test("should save multiple documents and variants", async () => {
     });
 
     const counter = Variant.of("page.views", 100);
-
 
     const results = await db.save(doc1, doc2, counter);
     assert.ok(Array.isArray(results));
@@ -75,6 +72,18 @@ test("should fetch a single document", async () => {
 });
 
 
+test("should query document column", async () => {
+
+    const info = await db.documents("user.profile");
+
+    const result = await info.query("email");
+
+    assert.equal(result.data[0], "ding_ms@outlook.com");
+
+});
+
+
+
 test("should fetch a single variant", async () => {
 
     const view = await db.variants("page.views");
@@ -89,6 +98,7 @@ test("should fetch a single variant", async () => {
 
 
 test("should throw error for unsupported type", async () => {
+    
     const invalid = { name: "invalid" };
 
     await assert.rejects(

@@ -8,12 +8,12 @@ export default class Document {
     static from(name: string, document?: Record<string, any>): Document;
 
     // 本地操作方法
-    merge(data: Record<string, any>): this;
+    merge(src: Record<string, any>): this;
 
     // 查询方法
     has(key: string): boolean;
     search(key: string): any;
-    query(key: string): Promise<any>;
+    query(target: string): Promise<any>;
 
     // 构建方法
     build(): Record<string, any>;
