@@ -12,7 +12,7 @@ const db = UrnaDB.OpenConnection({
 
 
 test("should create table", async () => {
-
+    
     const result = await db.createTable("users");
 
     assert.equal(result.status, "success");

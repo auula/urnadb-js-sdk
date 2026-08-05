@@ -21,7 +21,6 @@ test("should save a single document", async () => {
     assert.ok(Array.isArray(results));
     assert.equal(results.length, 1);
     assert.equal(results[0].status, "success");
-
 });
 
 
@@ -32,7 +31,6 @@ test("should save a single variant", async () => {
     assert.ok(Array.isArray(results));
     assert.equal(results.length, 1);
     assert.equal(results[0].status, "success");
-
 });
 
 
@@ -56,7 +54,6 @@ test("should save multiple documents and variants", async () => {
     results.forEach(result => {
         assert.equal(result.status, "success");
     });
-
 });
 
 test("should fetch a single document", async () => {
@@ -68,7 +65,6 @@ test("should fetch a single document", async () => {
     assert.equal(userinfo.name, "user.profile");
 
     assert.equal(typeof userinfo.document, "object");
-
 });
 
 
@@ -79,7 +75,6 @@ test("should query document column", async () => {
     const result = await info.query("email");
 
     assert.equal(result.data[0], "ding_ms@outlook.com");
-
 });
 
 
@@ -93,7 +88,6 @@ test("should fetch a single variant", async () => {
     assert.equal(view.name, "page.views");
 
     assert.equal(typeof view.build(), "number");
-
 });
 
 test("should incr a variant", async () => {
@@ -105,7 +99,6 @@ test("should incr a variant", async () => {
     assert.equal(view.name, "page.views");
 
     assert.equal(await view.incr(5), 105);
-
 });
 
 

@@ -5,7 +5,6 @@ import UrnaDB, { ServerOptions } from "urnadb-js-sdk";
 
 
 test("should generate base URL", () => {
-
     const options = new ServerOptions({
         host: "192.168.31.221",
         port: 2668,
@@ -17,12 +16,10 @@ test("should generate base URL", () => {
         options.baseUrl(),
         "http://192.168.31.221:2668"
     );
-
 });
 
 
 test("should expose read-only values without enumerable storage", () => {
-
     const options = ServerOptions.builder()
         .host("192.168.31.221")
         .port(2668)
@@ -34,13 +31,13 @@ test("should expose read-only values without enumerable storage", () => {
     assert.equal(options.host, "192.168.31.221");
     assert.equal(options.port, 2668);
     assert.equal(options.token, "connection-secret-token");
+    assert.equal(options.protocol, "https");
+    
     assert.deepEqual(Object.keys(options), []);
-
 });
 
 
 test("should accept a ServerOptions instance", () => {
-
     const options = new ServerOptions({
         host: "192.168.31.221",
         port: 2668,
@@ -53,4 +50,10 @@ test("should accept a ServerOptions instance", () => {
     assert.equal(db.port, options.port);
     assert.equal(db.token, options.token);
 
+    assert.ok(db.options instanceof ServerOptions);
+
+    assert.equal(db.options.host, options.host);
+    assert.equal(db.options.port, options.port);
+    assert.equal(db.options.token, options.token);
+    assert.equal(db.options.protocol, options.protocol);
 });
