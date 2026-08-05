@@ -1,7 +1,5 @@
-import type { ServerOptions } from "./index.js";
-
 export class Variant<T = string | boolean | number | object> {
-    constructor(name: string, value?: T | null, options?: ServerOptions | null);
+    constructor(name: string, value?: T | null);
 
     readonly name: string;
 

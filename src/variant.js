@@ -1,12 +1,12 @@
+import { getBinding } from "./bindings.js";
+
 export class Variant {
 
     #name;
     #variant;
-    #options;  // ServerOptions | null，null 表示纯本地对象
 
-    constructor(name, value = null, options = null) {
+    constructor(name, value = null) {
         this.#name = name;
-        this.#options = options;
         if (value && typeof value === "object" && "variant" in value) {
             this.#variant = value.variant;
         } else {
@@ -20,18 +20,19 @@ export class Variant {
     }
 
     async incr(delta = 0) {
+        const options = getBinding(this);
 
-        if (!this.#options) {
+        if (!options) {
             throw new Error("Cannot incr without server options");
         }
 
         const response = await fetch(
-            `${this.#options.baseUrl()}/variants/${this.#name}`,
+            `${options.baseUrl()}/variants/${this.#name}`,
             {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    "Auth-Token": this.#options.token
+                    "Auth-Token": options.token
                 },
                 body: JSON.stringify({
                     delta: delta,

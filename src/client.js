@@ -3,6 +3,7 @@ import { Table } from "./table.js";
 import { Variant } from "./variant.js";
 import { Document } from "./document.js";
 import { ServerOptions } from "./options.js";
+import { bind } from "./bindings.js";
 
 export default class UrnaDB {
 
@@ -88,7 +89,10 @@ export default class UrnaDB {
             );
         }
 
-        return new Document(name, result.data, this.#options);
+        const document = new Document(name, result.data);
+        bind(document, this.#options);
+
+        return document;
     }
 
     async variants(name) {
@@ -111,7 +115,10 @@ export default class UrnaDB {
             );
         }
 
-        return new Variant(name, result.data, this.#options);
+        const variant = new Variant(name, result.data);
+        bind(variant, this.#options);
+
+        return variant;
     }
 
     claims(name) {

@@ -23,6 +23,9 @@ test("root entry should support default and named imports", async () => {
         assert.equal(typeof sdk[expname], "function");
     }
 
+    assert.equal("bind" in sdk, false);
+    assert.equal("getBinding" in sdk, false);
+
     const options = new sdk.ServerOptions({
         host: "192.168.3.20",
         port: 2668,
@@ -55,12 +58,18 @@ test("table subpath should expose the public table API", async () => {
 
 test("unlisted source subpaths should remain private", async () => {
 
-    await assert.rejects(
-        import("urnadb-js-sdk/src/table.js"),
-        {
-            code: "ERR_PACKAGE_PATH_NOT_EXPORTED"
-        }
-    );
+    for (const subpath of [
+        "urnadb-js-sdk/src/table.js",
+        "urnadb-js-sdk/src/bindings.js",
+        "urnadb-js-sdk/bindings"
+    ]) {
+        await assert.rejects(
+            import(subpath),
+            {
+                code: "ERR_PACKAGE_PATH_NOT_EXPORTED"
+            }
+        );
+    }
 
 });
 

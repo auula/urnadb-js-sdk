@@ -1,18 +1,18 @@
+import { getBinding } from "./bindings.js";
+
 export class Document {
 
     #name;
     #document;
-    #options;  // ServerOptions | null
 
-    constructor(name, document = {}, options = null) {
+    constructor(name, document = {}) {
         this.#name = name;
         this.#document = document;
-        this.#options = options;
     }
 
     // 静态工厂：纯本地构建，用于 db.save() 批量提交
     static from(name, document = {}) {
-        return new Document(name, document, null);
+        return new Document(name, document);
     }
 
     get name() {
@@ -74,18 +74,19 @@ export class Document {
 
     // 从服务器查询文档
     async query(target) {
+        const options = getBinding(this);
 
-        if (!this.#options) {
+        if (!options) {
             throw new Error("Cannot query without server options");
         }
 
         const response = await fetch(
-            `${this.#options.baseUrl()}/records/${this.#name}`,
+            `${options.baseUrl()}/records/${this.#name}`,
             {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    "Auth-Token": this.#options.token
+                    "Auth-Token": options.token
                 },
                 body: JSON.stringify({
                     column: target,

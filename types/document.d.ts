@@ -1,5 +1,5 @@
 export class Document {
-    constructor(name: string, document?: Record<string, any>, options?: any);
+    constructor(name: string, document?: Record<string, any>);
 
     readonly name: string;
     readonly document: Record<string, any>;
