@@ -28,6 +28,10 @@ export class ServerOptions {
         return this.#token;
     }
 
+    get protocol() {
+        return this.#protocol;
+    }
+
     baseUrl() {
         return `${this.#protocol}://${this.#host}:${this.#port}`;
     }
