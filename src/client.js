@@ -63,10 +63,7 @@ export default class UrnaDB {
     }
 
     tables(name) {
-        return new Table(
-            name,
-            this.#options
-        );
+        return bind(new Table(name), this.#options);
     }
 
     async documents(name) {
@@ -89,10 +86,7 @@ export default class UrnaDB {
             );
         }
 
-        const document = new Document(name, result.data);
-        bind(document, this.#options);
-
-        return document;
+        return bind(new Document(name, result.data), this.#options);
     }
 
     async variants(name) {
@@ -115,10 +109,7 @@ export default class UrnaDB {
             );
         }
 
-        const variant = new Variant(name, result.data);
-        bind(variant, this.#options);
-
-        return variant;
+        return bind(new Variant(name, result.data), this.#options);
     }
 
     claims(name) {

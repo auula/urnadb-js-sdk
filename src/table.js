@@ -1,3 +1,5 @@
+import { getBinding } from "./bindings.js";
+
 export { Table };
 
 const OperationType = Object.freeze({
@@ -9,36 +11,40 @@ const OperationType = Object.freeze({
 class Table {
 
     #name;
-    #options;
 
 
-    constructor(name, options) {
+    constructor(name) {
         this.#name = name;
-        this.#options = options;
     }
 
     get name() {
         return this.#name;
     }
 
-    get options() {
-        return this.#options;
+    #getOptions() {
+        const options = getBinding(this);
+
+        if (!options) {
+            throw new Error("Table operations are only available through db.tables()");
+        }
+
+        return options;
     }
 
-
     async put(callback) {
+        const options = this.#getOptions();
 
         const rows = new TableRowsBuilder();
 
         callback(rows);
 
         const response = await fetch(
-            `${this.options.baseUrl()}/tables/${this.#name}/rows`,
+            `${options.baseUrl()}/tables/${this.#name}/rows`,
             {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    "Auth-Token": this.#options.token
+                    "Auth-Token": options.token
                 },
                 body: JSON.stringify({
                     rows: rows.build()
@@ -60,6 +66,7 @@ class Table {
 
 
     async patch(callback) {
+        const options = this.#getOptions();
 
         const patcher = new TableRowsPatcher();
 
@@ -68,12 +75,12 @@ class Table {
         const json = patcher.build();
 
         const response = await fetch(
-            `${this.options.baseUrl()}/tables/${this.#name}`,
+            `${options.baseUrl()}/tables/${this.#name}`,
             {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
-                    "Auth-Token": this.#options.token
+                    "Auth-Token": options.token
                 },
                 body: JSON.stringify({
                     wheres: json.where,
@@ -95,18 +102,19 @@ class Table {
     }
 
     async delete(callback) {
+        const options = this.#getOptions();
 
         const builder = new WhereBuilder();
 
         callback(builder);
 
         const response = await fetch(
-            `${this.options.baseUrl()}/tables/${this.#name}/rows`,
+            `${options.baseUrl()}/tables/${this.#name}/rows`,
             {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
-                    "Auth-Token": this.#options.token
+                    "Auth-Token": options.token
                 },
                 body: JSON.stringify({
                     wheres: builder.build()
@@ -127,18 +135,19 @@ class Table {
     }
 
     async query(callback) {
+        const options = this.#getOptions();
 
         const builder = new WhereBuilder();
 
         callback(builder);
 
         const response = await fetch(
-            `${this.options.baseUrl()}/tables/${this.#name}/query`,
+            `${options.baseUrl()}/tables/${this.#name}/query`,
             {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    "Auth-Token": this.#options.token
+                    "Auth-Token": options.token
                 },
                 body: JSON.stringify({
                     wheres: builder.build()
@@ -160,18 +169,19 @@ class Table {
 
 
     async transaction(callback) {
+        const options = this.#getOptions();
 
         const txns = new Transaction();
 
         callback(txns);
 
         const response = await fetch(
-            `${this.options.baseUrl()}/txns`,
+            `${options.baseUrl()}/txns`,
             {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    "Auth-Token": this.#options.token
+                    "Auth-Token": options.token
                 },
                 body: JSON.stringify({
                     mutations: txns.mutations.map(mutation => ({

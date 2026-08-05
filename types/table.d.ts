@@ -1,5 +1,3 @@
-import type { ServerOptions } from "./index.js";
-
 interface MapBuilder {
     put(key: string, build: (builder: MapBuilder) => void): this;
     put(key: string, value: unknown): this;
@@ -36,10 +34,9 @@ declare class TableRowsPatcher {
 }
 
 export class Table {
-    constructor(name: string, options: ServerOptions);
+    constructor(name?: string);
 
-    readonly name: string;
-    readonly options: ServerOptions;
+    readonly name: string | undefined;
 
     put(build: (rows: TableRowsBuilder) => void): Promise<any>;
     query(build: (builder: WhereBuilder) => void): Promise<any>;

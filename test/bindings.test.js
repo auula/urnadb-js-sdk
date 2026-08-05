@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 
-import UrnaDB, { Document, Variant } from "urnadb-js-sdk";
+import UrnaDB, { Document, Table, Variant } from "urnadb-js-sdk";
 
 
 test("should not bind directly constructed values with public options", async () => {
@@ -13,12 +13,16 @@ test("should not bind directly constructed values with public options", async ()
 
     const variant = new Variant("page.views", 100, db.options);
     const document = new Document("user.profile", {}, db.options);
+    const table = new Table("users", db.options);
 
     await assert.rejects(variant.incr(5), {
         message: "Cannot incr without server options"
     });
     await assert.rejects(document.query("email"), {
         message: "Cannot query without server options"
+    });
+    await assert.rejects(table.query(() => assert.fail("callback should not run")), {
+        message: "Table operations are only available through db.tables()"
     });
 });
 
@@ -49,6 +53,14 @@ test("should bind values returned by the client", async t => {
             return response({ data: ["ding_ms@outlook.com"] });
         }
 
+        if (url.endsWith("/tables/users/query") && method === "POST") {
+            return response({ data: [{ name: "Leon Ding" }] });
+        }
+
+        if (url.endsWith("/txns") && method === "POST") {
+            return response({ status: "success" });
+        }
+
         throw new Error(`Unexpected request: ${method} ${url}`);
     };
 
@@ -60,11 +72,23 @@ test("should bind values returned by the client", async t => {
 
     const variant = await db.variants("page.views");
     const document = await db.documents("user.profile");
+    const table = db.tables("users");
+    const transactions = db.tables();
 
     assert.equal(await variant.incr(5), 105);
     assert.deepStrictEqual(
         await document.query("email"),
         { data: ["ding_ms@outlook.com"] }
+    );
+    assert.deepStrictEqual(
+        await table.query(where => where.eq("name", "Leon Ding")),
+        { data: [{ name: "Leon Ding" }] }
+    );
+    assert.deepStrictEqual(
+        await transactions.transaction(txns => {
+            txns.put("users", rows => rows.set("name", "Leon Ding"));
+        }),
+        { status: "success" }
     );
 });
 

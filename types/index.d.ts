@@ -6,14 +6,14 @@ import { Table } from "./table.js";
 export { Claim, Document, Variant, Table };
 
 export interface ServerOptionsInit {
-    host?: string;
+    host: string;
     port?: number;
-    token?: string;
+    token: string;
     protocol?: "http" | "https";
 }
 
 export class ServerOptions {
-    constructor(options?: ServerOptionsInit);
+    constructor(options: ServerOptionsInit);
 
     readonly host: string;
     readonly port: number;
@@ -30,7 +30,7 @@ export class ServerOptionsBuilder {
     host(value: string): this;
     port(value: number): this;
     token(value: string): this;
-    protocol(value: string): this;
+    protocol(value: "http" | "https"): this;
     build(): ServerOptions;
 }
 
@@ -43,12 +43,11 @@ export class UrnaDB {
     readonly token: string;
     readonly options: ServerOptions;
 
-    static OpenConnection(options?: ServerOptions | ServerOptionsInit): UrnaDB;
+    static OpenConnection(options: ServerOptions | ServerOptionsInit): UrnaDB;
 
-    // createTable(name: string, ttl?: number | null): string;
     createTable(name: string): Promise<any>;
     claims(name: string): Claim;
-    tables(name: string): Table;
+    tables(name?: string): Table;
     variants(name: string): Promise<Variant>;
     documents(name: string): Promise<Document>;
     save(...items: Array<Variant | Document>): Promise<any>;
