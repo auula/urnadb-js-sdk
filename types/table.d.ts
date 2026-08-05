@@ -14,7 +14,6 @@ interface WhereBuilder {
 interface Transaction {
     serializable(enabled?: boolean): this;
     put(table: string, build: (rows: TableRowsBuilder) => void): this;
-    query(table: string, build: (builder: WhereBuilder) => void): this;
     delete(table: string, build: (builder: WhereBuilder) => void): this;
     patch(table: string, build: (patcher: TableRowsPatcher) => void): this;
 }
