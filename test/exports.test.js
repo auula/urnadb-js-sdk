@@ -18,9 +18,7 @@ test("root entry should support default and named imports", async () => {
         "Variant",
         "Document",
         "Table",
-        "Claim",
-        "TableRowsBuilder",
-        "TableRowsPatcher"
+        "Claim"
     ]) {
         assert.equal(typeof sdk[expname], "function");
     }
@@ -38,7 +36,7 @@ test("root entry should support default and named imports", async () => {
 });
 
 
-test("table subpath should reference the root table exports", async () => {
+test("table subpath should expose the public table API", async () => {
 
     const [sdk, tab] = await Promise.all([
         import("urnadb-js-sdk"),
@@ -46,25 +44,18 @@ test("table subpath should reference the root table exports", async () => {
     ]);
 
     assert.equal(tab.Table, sdk.Table);
-    assert.equal(tab.TableRowsBuilder, sdk.TableRowsBuilder);
-    assert.equal(tab.TableRowsPatcher, sdk.TableRowsPatcher);
+    assert.equal("TableRowsBuilder" in sdk, false);
+    assert.equal("TableRowsPatcher" in sdk, false);
+    assert.equal("TableRowsBuilder" in tab, false);
+    assert.equal("TableRowsPatcher" in tab, false);
 
     assert.deepEqual(tab.OperationType, {
         INSERT: "INSERT",
         UPDATE: "UPDATE",
         REMOVE: "REMOVE"
     });
-    
+
     assert.equal(Object.isFrozen(tab.OperationType), true);
-
-    const rows = new tab.TableRowsBuilder()
-        .set("name", "Leon Ding")
-        .set("active", true);
-
-    assert.deepEqual(rows.build(), {
-        name: "Leon Ding",
-        active: true
-    });
 
 });
 

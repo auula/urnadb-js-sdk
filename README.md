@@ -25,16 +25,14 @@ const db = UrnaDB.OpenConnection(options);
 const users = db.tables("users");
 ```
 
-Table APIs are available from both the root package and the `table` subpath:
+The `Table` class is available from both the root package and the `table`
+subpath. Transaction operation constants are available from the subpath:
 
 ```js
-import {
-    Table,
-    TableRowsBuilder,
-    TableRowsPatcher
-} from "urnadb-js-sdk";
+import { Table } from "urnadb-js-sdk";
+import { OperationType } from "urnadb-js-sdk/table";
 
-// The same exports are also available from "urnadb-js-sdk/table".
+// TableRowsBuilder and TableRowsPatcher are internal callback helpers.
 ```
 
 CommonJS `require()` is not part of the supported public API.

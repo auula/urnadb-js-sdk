@@ -4,7 +4,6 @@ import { Variant } from "./variant.js";
 import { Table } from "./table.js";
 
 export { Claim, Document, Variant, Table };
-export { TableRowsBuilder, TableRowsPatcher } from "./table.js";
 
 export interface ServerOptionsInit {
     host?: string;

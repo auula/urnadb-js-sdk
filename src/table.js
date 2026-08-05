@@ -1,8 +1,4 @@
-export {
-    Table,
-    TableRowsBuilder,
-    TableRowsPatcher
-};
+export { Table };
 
 export const OperationType = Object.freeze({
     INSERT: "INSERT",

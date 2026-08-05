@@ -5,9 +5,4 @@ export { Document } from "./document.js";
 export { Variant } from "./variant.js";
 export { Claim } from "./claim.js";
 
-export {
-    Table,
-    TableRowsBuilder,
-    TableRowsPatcher
-} from "./table.js";
-
+export { Table } from "./table.js";

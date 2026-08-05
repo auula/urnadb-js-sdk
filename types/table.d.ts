@@ -24,7 +24,7 @@ interface Transaction {
     patch(table: string, build: (patcher: TableRowsPatcher) => void): this;
 }
 
-export class TableRowsBuilder {
+declare class TableRowsBuilder {
     set(column: string, build: (builder: MapBuilder) => void): this;
     set(column: string, value: unknown): this;
     build(): Record<string, unknown>;
@@ -35,7 +35,7 @@ export interface TablePatcher {
     sets: Record<string, unknown>;
 }
 
-export class TableRowsPatcher {
+declare class TableRowsPatcher {
     where(build: (builder: WhereBuilder) => void): this;
     sets(build: (builder: MapBuilder) => void): this;
     build(): TablePatcher;
