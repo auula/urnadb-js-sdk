@@ -1,4 +1,4 @@
-import { ServerOptions } from "./index.js";
+import type { ServerOptions } from "./index.js";
 
 export class Variant<T = string | boolean | number | object> {
     constructor(name: string, value?: T | null, options?: ServerOptions | null);
@@ -9,7 +9,7 @@ export class Variant<T = string | boolean | number | object> {
     static of<T>(name: string, value: T): Variant<T>;
 
     // 服务端操作
-    incr(delta?: number): number;
+    incr(delta?: number): Promise<number>;
 
     // 本地操作
     build(): T | null;

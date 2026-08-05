@@ -1,7 +1,10 @@
-import { Claim } from "../src/claim.js";
-import { Document } from "../src/document.js";
-import { Variant } from "../src/variant.js";
+import { Claim } from "./claim.js";
+import { Document } from "./document.js";
+import { Variant } from "./variant.js";
 import { Table } from "./table.js";
+
+export { Claim, Document, Variant, Table };
+export { TableRowsBuilder, TableRowsPatcher } from "./table.js";
 
 export interface ServerOptionsInit {
     host?: string;
@@ -47,8 +50,8 @@ export class UrnaDB {
     createTable(name: string): Promise<any>;
     claims(name: string): Claim;
     tables(name: string): Table;
-    variants(name: string): Variant;
-    documents(name: string): Document;
+    variants(name: string): Promise<Variant>;
+    documents(name: string): Promise<Document>;
     save(...items: Array<Variant | Document>): Promise<any>;
 }
 

@@ -1,4 +1,4 @@
-export default class Document {
+export class Document {
     constructor(name: string, document?: Record<string, any>, options?: any);
 
     readonly name: string;

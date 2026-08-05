@@ -1,4 +1,4 @@
-import { ServerOptions } from "../src/options.js";
+import type { ServerOptions } from "./index.js";
 
 export const OperationType: Readonly<{
     INSERT: "INSERT";
