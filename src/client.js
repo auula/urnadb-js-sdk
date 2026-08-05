@@ -22,6 +22,10 @@ export default class UrnaDB {
         });
     }
 
+    get options() {
+        return this.#options;
+    }
+
     static OpenConnection(opts) {
 
         const options = opts instanceof ServerOptions
@@ -119,8 +123,8 @@ export default class UrnaDB {
 
     // 批量保存文档和变体
     async save(...items) {
-        let response = {};
         const promises = items.map(async (item) => {
+            let response = {};
             switch (item.constructor) {
                 case Document:
                     response = await fetch(
