@@ -1,6 +1,6 @@
 export { Table };
 
-export const OperationType = Object.freeze({
+const OperationType = Object.freeze({
     INSERT: "INSERT",
     UPDATE: "UPDATE",
     REMOVE: "REMOVE",

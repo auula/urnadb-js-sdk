@@ -48,14 +48,7 @@ test("table subpath should expose the public table API", async () => {
     assert.equal("TableRowsPatcher" in sdk, false);
     assert.equal("TableRowsBuilder" in tab, false);
     assert.equal("TableRowsPatcher" in tab, false);
-
-    assert.deepEqual(tab.OperationType, {
-        INSERT: "INSERT",
-        UPDATE: "UPDATE",
-        REMOVE: "REMOVE"
-    });
-
-    assert.equal(Object.isFrozen(tab.OperationType), true);
+    assert.equal("OperationType" in tab, false);
 
 });
 

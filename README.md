@@ -26,11 +26,10 @@ const users = db.tables("users");
 ```
 
 The `Table` class is available from both the root package and the `table`
-subpath. Transaction operation constants are available from the subpath:
+subpath:
 
 ```js
 import { Table } from "urnadb-js-sdk";
-import { OperationType } from "urnadb-js-sdk/table";
 
 // TableRowsBuilder and TableRowsPatcher are internal callback helpers.
 ```

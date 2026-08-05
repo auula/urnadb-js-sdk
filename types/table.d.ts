@@ -1,11 +1,5 @@
 import type { ServerOptions } from "./index.js";
 
-export const OperationType: Readonly<{
-    INSERT: "INSERT";
-    UPDATE: "UPDATE";
-    REMOVE: "REMOVE";
-}>;
-
 interface MapBuilder {
     put(key: string, build: (builder: MapBuilder) => void): this;
     put(key: string, value: unknown): this;
