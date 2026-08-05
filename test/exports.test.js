@@ -49,6 +49,14 @@ test("table subpath should reference the root table exports", async () => {
     assert.equal(tab.TableRowsBuilder, sdk.TableRowsBuilder);
     assert.equal(tab.TableRowsPatcher, sdk.TableRowsPatcher);
 
+    assert.deepEqual(tab.OperationType, {
+        INSERT: "INSERT",
+        UPDATE: "UPDATE",
+        REMOVE: "REMOVE"
+    });
+    
+    assert.equal(Object.isFrozen(tab.OperationType), true);
+
     const rows = new tab.TableRowsBuilder()
         .set("name", "Leon Ding")
         .set("active", true);
