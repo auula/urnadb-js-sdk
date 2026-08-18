@@ -1,13 +1,19 @@
 export class Claim {
-    constructor(name: string, token?: string | null);
+    constructor(name: string, ttl?: number);
 
-    // 这个可以传入参数，参数表示明确可以传入续租时间
-    extend(seconds?: number): this;
-    release(): boolean;
+    readonly name: string;
 
-    static acquire(name: string, options?: any): Claim;
+    // 上锁：PUT /locks/{name} { ttl } -> { data: { token } }
+    acquire(): Promise<this>;
 
-    using(
-        callback: (claim: Claim) => Promise<void>
-    ): Promise<this>;
+    // 续租：PATCH /locks/{name} { token } -> { data: { token } }
+    extend(): Promise<this>;
+
+    // 解锁：DELETE /locks/{name} { token }
+    release(): Promise<boolean>;
+
+    // 上锁 -> 执行业务 -> 释放（无论业务成功或抛异常都释放）
+    using(callback: (claim: Claim) => Promise<void> | void): Promise<this>;
+
+    static acquire(name: string, seconds?: number): Claim;
 }

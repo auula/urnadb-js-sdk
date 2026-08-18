@@ -113,10 +113,7 @@ export default class UrnaDB {
     }
 
     claims(name) {
-        return new Claim(
-            name,
-            30
-        );
+        return bind(new Claim(name, 30), this.#options);
     }
 
     // 批量保存文档和变体
