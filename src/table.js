@@ -32,6 +32,10 @@ class Table {
     }
 
     async put(callback) {
+        if (typeof callback !== "function") {
+            throw new TypeError("callback must be a function");
+        }
+
         const options = this.#getOptions();
 
         const rows = new TableRowsBuilder();
@@ -66,6 +70,10 @@ class Table {
 
 
     async patch(callback) {
+        if (typeof callback !== "function") {
+            throw new TypeError("callback must be a function");
+        }
+
         const options = this.#getOptions();
 
         const patcher = new TableRowsPatcher();
@@ -102,6 +110,10 @@ class Table {
     }
 
     async delete(callback) {
+        if (typeof callback !== "function") {
+            throw new TypeError("callback must be a function");
+        }
+
         const options = this.#getOptions();
 
         const builder = new WhereBuilder();
@@ -135,6 +147,10 @@ class Table {
     }
 
     async query(callback) {
+        if (typeof callback !== "function") {
+            throw new TypeError("callback must be a function");
+        }
+
         const options = this.#getOptions();
 
         const builder = new WhereBuilder();
@@ -169,6 +185,10 @@ class Table {
 
 
     async transaction(callback) {
+        if (typeof callback !== "function") {
+            throw new TypeError("callback must be a function");
+        }
+
         const options = this.#getOptions();
 
         const txns = new Transaction();
@@ -223,22 +243,36 @@ class Transaction {
     }
 
     patch(name, callback) {
+        if (typeof name !== "string" || name.trim() === "") {
+            throw new TypeError("name must be a non-empty string");
+        }
+        if (typeof callback !== "function") {
+            throw new TypeError("callback must be a function");
+        }
 
         const patcher = new TableRowsPatcher();
 
         callback(patcher);
 
+        const built = patcher.build();
+
         this.mutations.push(new TableMutation({
             name,
             operation: OperationType.UPDATE,
-            conditions: patcher.build().where,
-            data: patcher.build().sets
+            conditions: built.where,
+            data: built.sets
         }));
 
         return this;
     }
 
     put(name, callback) {
+        if (typeof name !== "string" || name.trim() === "") {
+            throw new TypeError("name must be a non-empty string");
+        }
+        if (typeof callback !== "function") {
+            throw new TypeError("callback must be a function");
+        }
 
         const builder = new TableRowsBuilder();
 
@@ -254,6 +288,12 @@ class Transaction {
     }
 
     delete(name, callback) {
+        if (typeof name !== "string" || name.trim() === "") {
+            throw new TypeError("name must be a non-empty string");
+        }
+        if (typeof callback !== "function") {
+            throw new TypeError("callback must be a function");
+        }
 
         const builder = new WhereBuilder();
 
