@@ -1,9 +1,10 @@
 import { Claim } from "./claim.js";
 import { Table } from "./table.js";
+import { bind } from "./bindings.js";
 import { Variant } from "./variant.js";
 import { Document } from "./document.js";
+import { SystemInfo } from "./status.js";
 import { ServerOptions } from "./options.js";
-import { bind } from "./bindings.js";
 
 export default class UrnaDB {
 
@@ -167,6 +168,24 @@ export default class UrnaDB {
         });
 
         return Promise.all(promises);
+    }
+
+    async systemInfo() {
+        const response = await fetch(`${this.#options.baseUrl()}/health`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Auth-Token": this.#options.token
+            }
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            throw new Error(`Failed to get system info: ${result.message || response.statusText}`);
+        }
+
+        return Promise.resolve(new SystemInfo(result.data));
     }
 
 }

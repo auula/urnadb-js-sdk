@@ -1,9 +1,10 @@
 import { Claim } from "./claim.js";
+import { SystemInfo } from "./status.js";
 import { Document } from "./document.js";
 import { Variant } from "./variant.js";
 import { Table } from "./table.js";
 
-export { Claim, Document, Variant, Table };
+export { Claim, SystemInfo, Document, Variant, Table };
 
 export interface ServerOptionsInit {
     host: string;
@@ -51,6 +52,9 @@ export class UrnaDB {
     variants(name: string): Promise<Variant>;
     documents(name: string): Promise<Document>;
     save(...items: Array<Variant | Document>): Promise<any>;
+
+    /** 获取服务器系统指标监控信息 */
+    systemInfo(): Promise<SystemInfo>;
 }
 
 export default UrnaDB;
