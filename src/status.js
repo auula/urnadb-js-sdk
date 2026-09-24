@@ -1,4 +1,4 @@
-export class SystemInfo {
+export class ServerInfo {
 
     #key_count;
     #gc_state;

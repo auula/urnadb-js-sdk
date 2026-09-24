@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { setTimeout as sleep } from "node:timers/promises";
 
-import UrnaDB, { SystemInfo } from "urnadb-js-sdk";
+import UrnaDB, { ServerInfo } from "urnadb-js-sdk";
 
 // Mock fetch for unit testing
 const originalFetch = global.fetch;
@@ -47,10 +47,10 @@ test("should get system info successfully with mock", async () => {
         token: "test-token",
     });
 
-    const info = await db.systemInfo();
+    const info = await db.serverInfo();
 
-    // 验证返回的是 SystemInfo 实例
-    assert.ok(info instanceof SystemInfo, "Should return SystemInfo instance");
+    // 验证返回的是 serverStatus 实例
+    assert.ok(info instanceof ServerInfo, "Should return ServerInfo instance");
 
     // 验证各个字段类型和值
     assert.ok(typeof info.keyCount === "number", "keyCount should be a number");
@@ -100,10 +100,10 @@ test("should get system info from real server", async () => {
     });
 
     try {
-        const info = await db.systemInfo();
+        const info = await db.serverInfo();
 
-        // 验证返回的是 SystemInfo 实例
-        assert.ok(info instanceof SystemInfo, "Should return SystemInfo instance");
+        // 验证返回的是 serverStatus 实例
+        assert.ok(info instanceof ServerInfo, "Should return ServerInfo instance");
 
         // 验证各个字段类型
         assert.ok(typeof info.keyCount === "number", "keyCount should be a number");
@@ -138,7 +138,7 @@ test("should throw error when server is unreachable", async () => {
     });
 
     await assert.rejects(
-        async () => await db.systemInfo(),
+        async () => await db.serverInfo(),
         Error,
         "Should throw error when server is unreachable"
     );
@@ -165,10 +165,10 @@ test("should throw error with invalid token", async () => {
     });
 
     await assert.rejects(
-        async () => await db.systemInfo(),
+        async () => await db.serverInfo(),
         {
             name: "Error",
-            message: /HTTP error|Invalid authentication/
+            message: "HTTP error|Invalid authentication"
         },
         "Should throw error with invalid token"
     );
@@ -196,7 +196,7 @@ test("should handle PQL error response", async () => {
     });
 
     await assert.rejects(
-        async () => await db.systemInfo(),
+        async () => await db.serverInfo(),
         {
             name: "Error",
             message: "Server internal error"

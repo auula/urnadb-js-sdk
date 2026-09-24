@@ -1,4 +1,4 @@
-export class SystemInfo {
+export class ServerInfo {
     constructor(data: {
         key_count: number;
         gc_state: number;

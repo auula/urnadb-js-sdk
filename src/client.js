@@ -3,7 +3,7 @@ import { Table } from "./table.js";
 import { bind } from "./bindings.js";
 import { Variant } from "./variant.js";
 import { Document } from "./document.js";
-import { SystemInfo } from "./status.js";
+import { ServerInfo } from "./status.js";
 import { ServerOptions } from "./options.js";
 
 export default class UrnaDB {
@@ -170,7 +170,7 @@ export default class UrnaDB {
         return Promise.all(promises);
     }
 
-    async systemInfo() {
+    async serverInfo() {
         const response = await fetch(`${this.#options.baseUrl()}/health`, {
             method: "GET",
             headers: {
@@ -189,7 +189,7 @@ export default class UrnaDB {
             throw new Error(result.message || "Failed to get system info");
         }
 
-        return new SystemInfo(result.data);
+        return new ServerInfo(result.data);
     }
 
 }
