@@ -21,15 +21,15 @@ export class SystemInfo {
         disk_percent,
         space_total,
     }) {
-        this.keyCount = key_count;
-        this.gcState = gc_state;
-        this.diskFree = disk_free;
-        this.diskUsed = disk_used;
-        this.diskTotal = disk_total;
-        this.memoryFree = mem_free;
-        this.memoryTotal = mem_total;
-        this.diskPercent = disk_percent;
-        this.spaceTotalUsed = space_total;
+        this.#key_count = key_count;
+        this.#gc_state = gc_state;
+        this.#disk_free = disk_free;
+        this.#disk_used = disk_used;
+        this.#disk_total = disk_total;
+        this.#mem_free = mem_free;
+        this.#mem_total = mem_total;
+        this.#disk_percent = disk_percent;
+        this.#space_total = space_total;
     }
 
     get keyCount() {

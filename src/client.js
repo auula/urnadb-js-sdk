@@ -185,7 +185,11 @@ export default class UrnaDB {
             throw new Error(`Failed to get system info: ${result.message || response.statusText}`);
         }
 
-        return Promise.resolve(new SystemInfo(result.data));
+        if (result.status === "error") {
+            throw new Error(result.message || "Failed to get system info");
+        }
+
+        return new SystemInfo(result.data);
     }
 
 }
